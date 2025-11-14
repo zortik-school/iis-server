@@ -12,7 +12,7 @@ public class CampaignEntity {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "campaign", orphanRemoval = true)
+    @OneToMany(mappedBy = "campaign", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<StepEntity> steps;
 
     @ManyToOne(optional = false)

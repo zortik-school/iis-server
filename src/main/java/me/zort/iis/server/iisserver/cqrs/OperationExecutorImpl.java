@@ -1,15 +1,15 @@
 package me.zort.iis.server.iisserver.cqrs;
 
-import me.zort.iis.server.iisserver.cqrs.exception.ExceptionInHandlerException;
 import me.zort.iis.server.iisserver.cqrs.exception.UnhandledOperationException;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Supplier;
 
 /**
  * Implementation of the OperationExecutor interface for dispatching operations to their respective handlers.
@@ -42,36 +42,21 @@ public class OperationExecutorImpl implements OperationExecutor {
         OperationHandler<Operation<R>, R> handler = getHandlerForOperation(operation)
                 .orElseThrow(() -> new UnhandledOperationException(operation));
 
-        AtomicReference<R> collectedResult = new AtomicReference<>();
-        AtomicBoolean handled = new AtomicBoolean(false);
+        List<OperationFilter<?, ?>> filters = new ArrayList<>(this.filters);
+        Collections.reverse(filters);
 
+        Supplier<R> nextFunc = () -> handler.handle(operation);
         for (OperationFilter<?, ?> filter : filters) {
             OperationFilter<Operation<R>, R> castedFilter = castFilter(filter, operation);
 
             if (castedFilter != null) {
-                consumeExecutionCall(() -> castedFilter.filter(operation, result -> {
-                    collectedResult.set(result);
+                final Supplier<R> currentNextFunc = nextFunc;
 
-                    handled.set(true);
-                }));
-            }
-
-            if (handled.get()) {
-                break;
+                nextFunc = () -> castedFilter.filter(operation, currentNextFunc);
             }
         }
 
-        if (!handled.get()) {
-            // If not handled by any filte, proceed to normal handling
-            consumeExecutionCall(() -> {
-                R result = handler.handle(operation);
-
-                collectedResult.set(result);
-                handled.set(true);
-            });
-        }
-
-        return collectedResult.get();
+        return nextFunc.get();
     }
 
     /**
@@ -89,19 +74,6 @@ public class OperationExecutorImpl implements OperationExecutor {
                 .filter(handler -> handler.getOperationType().isAssignableFrom(operation.getClass()))
                 .map(handler -> (OperationHandler<T, R>) handler)
                 .findFirst();
-    }
-
-    /**
-     * Executes the given task and wraps any exceptions in an ExceptionInHandlerException.
-     *
-     * @param task the task to be executed
-     */
-    private void consumeExecutionCall(Runnable task) {
-        try {
-            task.run();
-        } catch (Exception e) {
-            throw new ExceptionInHandlerException(e);
-        }
     }
 
     @Nullable

@@ -15,7 +15,7 @@ public class StepEntity {
     @Column(nullable = false, name = "is_active")
     private boolean isActive;
 
-    @OneToMany(mappedBy = "step", orphanRemoval = true)
+    @OneToMany(mappedBy = "step", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ActivityEntity> activities;
 
     @ManyToOne(optional = false)

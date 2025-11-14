@@ -1,9 +1,6 @@
 package me.zort.iis.server.iisserver.data.jpa.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -18,7 +15,7 @@ public class ThemeEntity {
     @Column(nullable = false)
     private String description;
 
-    @OneToMany(mappedBy = "theme", orphanRemoval = true)
+    @OneToMany(mappedBy = "theme", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<CampaignEntity> campaigns;
 
 }
