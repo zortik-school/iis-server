@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * Filter that ensures only users with MANAGE_USERS privilege can perform user management operations.
+ */
 @Component
 public class UserManagementFilter extends AggregateFilter {
     private static final List<Class<? extends Operation<?>>> MANAGED_OPERATIONS = List.of(

@@ -6,6 +6,9 @@ import me.zort.iis.server.iisserver.cqrs.OperationFilter;
 
 import java.util.List;
 
+/**
+ * An abstract filter that handles multiple operation types.
+ */
 @RequiredArgsConstructor
 public abstract class AggregateFilter implements OperationFilter<Operation<Object>, Object> {
     private final List<Class<? extends Operation<?>>> managedOperations;
