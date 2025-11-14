@@ -1,7 +1,10 @@
 package me.zort.iis.server.iisserver.http.model.user;
 
 import lombok.Getter;
+import me.zort.iis.server.iisserver.domain.access.Privilege;
 import me.zort.iis.server.iisserver.domain.user.User;
+
+import java.util.List;
 
 @Getter
 public class IdentityResponse {
@@ -10,10 +13,14 @@ public class IdentityResponse {
     private final String name;
     private final String role;
 
-    public IdentityResponse(User user) {
+    private final List<Privilege> privileges;
+
+    public IdentityResponse(User user, List<Privilege> privileges) {
         this.id = user.getId();
         this.username = user.getUsername();
         this.name = user.getName();
         this.role = user.getRole().name();
+
+        this.privileges = privileges;
     }
 }

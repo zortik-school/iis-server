@@ -12,6 +12,10 @@ components:
       enum:
         - ADMIN
         - USER
+    Privilege:
+      type: string
+      enum:
+        - MANAGE_USERS
     User:
       type: object
       properties:

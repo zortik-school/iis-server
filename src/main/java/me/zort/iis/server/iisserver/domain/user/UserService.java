@@ -16,10 +16,27 @@ public interface UserService {
      */
     User createUser(CreateUserArgs args);
 
+    /**
+     * Deletes a user identified by the given ID.
+     *
+     * @param id the unique ID of the user to delete
+     */
     void deleteUser(long id);
 
+    /**
+     * Retrieves a user by their unique ID.
+     *
+     * @param id the unique ID of the user to retrieve
+     * @return an Optional containing the User if found, or empty if not found
+     */
     Optional<User> getUser(long id);
 
+    /**
+     * Retrieves a user by their username.
+     *
+     * @param username the username of the user to retrieve
+     * @return an Optional containing the User if found, or empty if not found
+     */
     Optional<User> getUserByUsername(String username);
 
     /**
