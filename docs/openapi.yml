@@ -23,6 +23,13 @@ components:
           type: string
         role:
           $ref: '#/components/schemas/Role'
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
   responses:
     JwtResponse:
       description: Used to return JWT token.
@@ -55,6 +62,14 @@ paths:
   /auth/register:
     post:
       summary: Register user.
+      parameters:
+        - name: createSession
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: Whether to create a session upon registration.
+            default: true
       requestBody:
         required: true
         content:
@@ -87,3 +102,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+  /users/{id}:
+    delete:
+      summary: Delete user by ID.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      responses:
+        '200':
+          description: User deleted successfully.
+        '403':
+          description: Forbidden. Only ADMIN can delete users.
+  /users/{id}/role:
+    put:
+      summary: Update user's role.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role:
+                  $ref: '#/components/schemas/Role'
+      responses:
+        '200':
+          description: User role updated successfully.
+        '403':
+          description: Forbidden. Only ADMIN can update user roles.

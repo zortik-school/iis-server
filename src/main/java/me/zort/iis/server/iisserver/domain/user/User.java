@@ -10,6 +10,13 @@ public interface User {
     void setPasswordHash(String passwordHash);
 
     /**
+     * Sets the user's name.
+     *
+     * @param role the role to set
+     */
+    void setRole(Role role);
+
+    /**
      * User's unique identifier.
      *
      * @return Unique ID of the user.

@@ -1,6 +1,7 @@
 package me.zort.iis.server.iisserver.domain.user;
 
 import me.zort.iis.server.iisserver.domain.user.exception.UserConflictException;
+import me.zort.iis.server.iisserver.domain.user.exception.UserNotFoundException;
 
 import java.util.Optional;
 
@@ -20,4 +21,13 @@ public interface UserService {
     Optional<User> getUser(long id);
 
     Optional<User> getUserByUsername(String username);
+
+    /**
+     * Sets the role of a user identified by the given ID.
+     *
+     * @param id the ID of the user
+     * @param role the new role to assign to the user
+     * @throws UserNotFoundException If no user with the given ID exists
+     */
+    void setUserRole(long id, Role role);
 }

@@ -3,7 +3,9 @@ package me.zort.iis.server.iisserver.domain.user;
 import lombok.RequiredArgsConstructor;
 import me.zort.iis.server.iisserver.domain.user.event.UserCreatedEvent;
 import me.zort.iis.server.iisserver.domain.user.event.UserDeletedEvent;
+import me.zort.iis.server.iisserver.domain.user.event.UserRoleChangedEvent;
 import me.zort.iis.server.iisserver.domain.user.exception.UserConflictException;
+import me.zort.iis.server.iisserver.domain.user.exception.UserNotFoundException;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -45,5 +47,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUserByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public void setUserRole(long id, Role role) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+
+        Role oldRole = user.getRole();
+        if (oldRole != role) {
+            user.setRole(role);
+
+            userRepository.save(user);
+
+            eventPublisher.publishEvent(new UserRoleChangedEvent(user, oldRole, role));
+        }
     }
 }

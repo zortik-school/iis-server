@@ -1,5 +1,6 @@
 package me.zort.iis.server.iisserver.http.model.auth;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginRequest {
+    @NotBlank
     private String username;
+    @NotBlank
     private String password;
 
 }

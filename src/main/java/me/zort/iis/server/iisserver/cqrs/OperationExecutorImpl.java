@@ -78,7 +78,7 @@ public class OperationExecutorImpl implements OperationExecutor {
 
     @Nullable
     private <T extends Operation<R>, R> OperationFilter<T, R> castFilter(OperationFilter<?, ?> filter, Operation<?> operation) {
-        if (filter.getOperationType().isAssignableFrom(operation.getClass())) {
+        if (filter.getOperationType().isAssignableFrom(operation.getClass()) && filter.handles(operation)) {
             @SuppressWarnings("unchecked") // Safe
             OperationFilter<T, R> castedFilter = (OperationFilter<T, R>) filter;
 

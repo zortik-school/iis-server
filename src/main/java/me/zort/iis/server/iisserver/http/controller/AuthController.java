@@ -1,6 +1,7 @@
 package me.zort.iis.server.iisserver.http.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.zort.iis.server.iisserver.app.auth.JwtPair;
 import me.zort.iis.server.iisserver.cqrs.OperationExecutor;
@@ -19,7 +20,7 @@ public class AuthController {
     private final OperationExecutor operationExecutor;
 
     @PostMapping("/auth/login")
-    public JwtResponse login(@RequestBody LoginRequest body, HttpServletResponse response) {
+    public JwtResponse login(@Valid @RequestBody LoginRequest body, HttpServletResponse response) {
         LoginOp op = LoginOp.builder()
                 .username(body.getUsername())
                 .password(body.getPassword())
@@ -32,7 +33,9 @@ public class AuthController {
     }
 
     @PostMapping("/auth/register")
-    public JwtResponse register(@RequestBody RegisterRequest body, HttpServletResponse response) {
+    public JwtResponse register(
+            @RequestParam(value = "createSession", defaultValue = "true") boolean createSession,
+            @Valid @RequestBody RegisterRequest body, HttpServletResponse response) {
         RegisterOp op = RegisterOp.builder()
                 .username(body.getUsername())
                 .name(body.getName())
@@ -40,7 +43,9 @@ public class AuthController {
                 .build();
 
         JwtPair jwt = operationExecutor.dispatch(op);
-        writeRefreshTokenCookie(response, jwt);
+        if (createSession) {
+            writeRefreshTokenCookie(response, jwt);
+        }
 
         return new JwtResponse(jwt.getAccessToken());
     }

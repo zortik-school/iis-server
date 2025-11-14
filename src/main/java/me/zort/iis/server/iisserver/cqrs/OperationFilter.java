@@ -14,6 +14,16 @@ public interface OperationFilter<T extends Operation<R>, R> {
     R filter(T operation, Supplier<R> next);
 
     /**
+     * Determines if this filter can handle the given operation.
+     *
+     * @param operation the operation to check
+     * @return true if this filter can handle the operation, false otherwise
+     */
+    default boolean handles(Operation<?> operation) {
+        return getOperationType().isAssignableFrom(operation.getClass());
+    }
+
+    /**
      * The type of operation this filter can process.
      *
      * @return the class of the operation type T
