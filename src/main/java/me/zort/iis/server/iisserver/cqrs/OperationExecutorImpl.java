@@ -22,6 +22,12 @@ public class OperationExecutorImpl implements OperationExecutor {
     private final List<OperationHandler<?, ?>> handlers;
     private final List<OperationFilter<?, ?>> filters;
 
+    /**
+     * Constructs a new OperationExecutorImpl with the given handlers and filters.
+     *
+     * @param handlers the list of operation handlers
+     * @param filters the list of operation filters
+     */
     @Autowired
     public OperationExecutorImpl(List<OperationHandler<?, ?>> handlers, List<OperationFilter<?, ?>> filters) {
         this.handlers = List.copyOf(handlers);
@@ -68,6 +74,14 @@ public class OperationExecutorImpl implements OperationExecutor {
         return collectedResult.get();
     }
 
+    /**
+     * Finds the appropriate handler for the given operation.
+     *
+     * @param operation the operation to find a handler for
+     * @return an Optional containing the handler if found, or empty if not found
+     * @param <T> the type of operation
+     * @param <R> the type of result returned by the operation
+     */
     @SuppressWarnings("unchecked") // Safe cast based on type check
     public <T extends Operation<R>, R> Optional<OperationHandler<T, R>> getHandlerForOperation(Operation<R> operation) {
         return handlers
