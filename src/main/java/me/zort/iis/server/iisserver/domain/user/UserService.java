@@ -2,6 +2,8 @@ package me.zort.iis.server.iisserver.domain.user;
 
 import me.zort.iis.server.iisserver.domain.user.exception.UserConflictException;
 import me.zort.iis.server.iisserver.domain.user.exception.UserNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
@@ -47,4 +49,12 @@ public interface UserService {
      * @throws UserNotFoundException If no user with the given ID exists
      */
     void setUserRole(long id, Role role);
+
+    /**
+     * Retrieves a paginated list of users.
+     *
+     * @param pageable pagination information
+     * @return a page of users
+     */
+    Page<User> getUsers(Pageable pageable);
 }

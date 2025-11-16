@@ -7,8 +7,11 @@ import me.zort.iis.server.iisserver.domain.user.event.UserRoleChangedEvent;
 import me.zort.iis.server.iisserver.domain.user.exception.UserConflictException;
 import me.zort.iis.server.iisserver.domain.user.exception.UserNotFoundException;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -51,6 +54,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void setUserRole(long id, Role role) {
+        Objects.requireNonNull(role, "Role cannot be null");
+
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
 
         Role oldRole = user.getRole();
@@ -61,5 +66,10 @@ public class UserServiceImpl implements UserService {
 
             eventPublisher.publishEvent(new UserRoleChangedEvent(user, oldRole, role));
         }
+    }
+
+    @Override
+    public Page<User> getUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 }

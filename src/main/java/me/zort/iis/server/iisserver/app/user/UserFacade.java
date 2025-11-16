@@ -1,7 +1,10 @@
 package me.zort.iis.server.iisserver.app.user;
 
 import me.zort.iis.server.iisserver.domain.user.Role;
+import me.zort.iis.server.iisserver.domain.user.User;
 import me.zort.iis.server.iisserver.domain.user.exception.UserNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface UserFacade {
 
@@ -21,4 +24,12 @@ public interface UserFacade {
      * @throws UserNotFoundException If the user with the given ID does not exist
      */
     void deleteUser(long userId);
+
+    /**
+     * Retrieves a paginated list of users.
+     *
+     * @param pageable pagination information
+     * @return a page of users
+     */
+    Page<User> getUsers(Pageable pageable);
 }

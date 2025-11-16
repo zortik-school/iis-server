@@ -2,6 +2,9 @@ package me.zort.iis.server.iisserver.data.jpa;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.iis.server.iisserver.data.IdAdjustmentStrategy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -18,7 +21,7 @@ import java.util.stream.StreamSupport;
  */
 @RequiredArgsConstructor
 public class JpaCrudRepository<T, E extends JpaEntity<ID>, ID> {
-    private final CrudRepository<E, ID> repository;
+    private final JpaRepository<E, ID> repository;
     private final JpaMapper<T, E> mapper;
     private final IdAdjustmentStrategy idAdjustmentStrategy;
 
@@ -80,8 +83,18 @@ public class JpaCrudRepository<T, E extends JpaEntity<ID>, ID> {
      * @return list of all domain models
      */
     public List<T> findAll() {
-        return StreamSupport.stream(repository.findAll().spliterator(), false)
+        return repository.findAll().stream()
                 .map(mapper::toDomain)
                 .toList();
+    }
+
+    /**
+     * Finds all domain models with pagination.
+     *
+     * @param pageable pagination information
+     * @return a page of domain models
+     */
+    public Page<T> findAll(Pageable pageable) {
+        return repository.findAll(pageable).map(mapper::toDomain);
     }
 }

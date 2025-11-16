@@ -4,6 +4,7 @@ import me.zort.iis.server.iisserver.aop.access.RequirePrivilege;
 import me.zort.iis.server.iisserver.cqrs.Operation;
 import me.zort.iis.server.iisserver.cqrs.operation.user.ChangeUserRoleOp;
 import me.zort.iis.server.iisserver.cqrs.operation.user.DeleteUserOp;
+import me.zort.iis.server.iisserver.cqrs.operation.user.GetUsersOp;
 import me.zort.iis.server.iisserver.domain.access.Privilege;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +19,8 @@ public class UserManagementFilter extends AggregateFilter {
     private static final List<Class<? extends Operation<?>>> MANAGED_OPERATIONS = List.of(
             // User management operations handled by this filter
             ChangeUserRoleOp.class,
-            DeleteUserOp.class
+            DeleteUserOp.class,
+            GetUsersOp.class
     );
 
     public UserManagementFilter() {

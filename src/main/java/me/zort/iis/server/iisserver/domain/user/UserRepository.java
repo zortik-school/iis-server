@@ -1,6 +1,8 @@
 package me.zort.iis.server.iisserver.domain.user;
 
 import me.zort.iis.server.iisserver.domain.user.exception.UserConflictException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
@@ -37,4 +39,12 @@ public interface UserRepository {
      * @param id the ID of the user to delete
      */
     void deleteById(Long id);
+
+    /**
+     * Finds all users with pagination.
+     *
+     * @param pageable pagination information
+     * @return a page of users
+     */
+    Page<User> findAll(Pageable pageable);
 }

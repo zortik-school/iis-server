@@ -2,8 +2,11 @@ package me.zort.iis.server.iisserver.app.user;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.iis.server.iisserver.domain.user.Role;
+import me.zort.iis.server.iisserver.domain.user.User;
 import me.zort.iis.server.iisserver.domain.user.UserService;
 import me.zort.iis.server.iisserver.domain.user.exception.UserNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,5 +24,10 @@ public class UserFacadeImpl implements UserFacade {
         userService.getUser(userId).orElseThrow(() -> new UserNotFoundException(userId));
 
         userService.deleteUser(userId);
+    }
+
+    @Override
+    public Page<User> getUsers(Pageable pageable) {
+        return userService.getUsers(pageable);
     }
 }

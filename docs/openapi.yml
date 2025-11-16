@@ -27,6 +27,15 @@ components:
           type: string
         role:
           $ref: '#/components/schemas/Role'
+    PageInfo:
+      type: object
+      properties:
+        index:
+          type: integer
+        size:
+          type: integer
+        totalPages:
+          type: integer
   parameters:
     Id:
       name: id
@@ -96,6 +105,35 @@ paths:
       responses:
         '200':
           description: Successfully logged out.
+  /users:
+    get:
+      summary: Get all users.
+      parameters:
+        - name: pageIndex
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of users.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  page:
+                    $ref: '#/components/schemas/PageInfo'
+
   /users/me:
     get:
       summary: Get current user.

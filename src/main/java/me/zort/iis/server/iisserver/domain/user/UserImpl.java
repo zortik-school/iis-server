@@ -10,6 +10,6 @@ public class UserImpl implements User {
     private final String username;
     private String passwordHash;
     private final String name;
-    private final Role role;
+    private Role role;
 
 }

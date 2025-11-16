@@ -8,9 +8,11 @@ import me.zort.iis.server.iisserver.cqrs.OperationExecutor;
 import me.zort.iis.server.iisserver.cqrs.operation.auth.LoginOp;
 import me.zort.iis.server.iisserver.cqrs.operation.auth.RefreshAuthOp;
 import me.zort.iis.server.iisserver.cqrs.operation.auth.RegisterOp;
+import me.zort.iis.server.iisserver.http.model.BlankResponse;
 import me.zort.iis.server.iisserver.http.model.auth.JwtResponse;
 import me.zort.iis.server.iisserver.http.model.auth.LoginRequest;
 import me.zort.iis.server.iisserver.http.model.auth.RegisterRequest;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.http.ResponseCookie;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,14 +64,21 @@ public class AuthController {
         return new JwtResponse(newPair.getAccessToken());
     }
 
+    @PostMapping("/auth/logout")
+    public BlankResponse logout(HttpServletResponse response) {
+        writeRefreshTokenCookie(response, null);
+
+        return BlankResponse.getInstance();
+    }
+
     /**
      * Writes the refresh token as an HTTP-only cookie in the response.
      *
      * @param response the HTTP response
      * @param newPair the new JWT pair containing the refresh token
      */
-    private static void writeRefreshTokenCookie(HttpServletResponse response, JwtPair newPair) {
-        ResponseCookie cookie = ResponseCookie.from("refresh-token", newPair.getRefreshToken())
+    private static void writeRefreshTokenCookie(HttpServletResponse response, @Nullable JwtPair newPair) {
+        ResponseCookie cookie = ResponseCookie.from("refresh-token", newPair != null ? newPair.getRefreshToken() : "")
                 .httpOnly(true)
                 .secure(true)
                 .path("/")

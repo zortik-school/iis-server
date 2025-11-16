@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import me.zort.iis.server.iisserver.cqrs.OperationExecutor;
 import me.zort.iis.server.iisserver.cqrs.operation.auth.ValidateTokenOp;
+import me.zort.iis.server.iisserver.domain.auth.exception.TokenInvalidException;
 import me.zort.iis.server.iisserver.domain.user.User;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,9 +35,13 @@ public class JwtFilter extends OncePerRequestFilter {
             ValidateTokenOp op = ValidateTokenOp.builder()
                     .token(token)
                     .build();
-            User user = operationExecutor.dispatch(op);
-            SecurityContextHolder.getContext().setAuthentication(
-                    UsernamePasswordAuthenticationToken.authenticated(user, token, List.of(user.getRole())));
+            try {
+                User user = operationExecutor.dispatch(op);
+                SecurityContextHolder.getContext().setAuthentication(
+                        UsernamePasswordAuthenticationToken.authenticated(user, token, List.of(user.getRole())));
+            } catch (TokenInvalidException ignored) {
+                // Ignoring this since the Spring Security chain will handle unauthenticated requests.
+            }
         }
 
         filterChain.doFilter(request, response);
