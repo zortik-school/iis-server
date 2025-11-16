@@ -13,7 +13,7 @@ import me.zort.iis.server.iisserver.http.model.BlankResponse;
 import me.zort.iis.server.iisserver.http.model.PageResponse;
 import me.zort.iis.server.iisserver.http.model.user.ChangeUserRoleRequest;
 import me.zort.iis.server.iisserver.http.model.user.IdentityResponse;
-import me.zort.iis.server.iisserver.http.model.user.UserResponse;
+import me.zort.iis.server.iisserver.http.model.user.UserModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,42 +27,29 @@ public class UsersController {
     private final OperationExecutor operationExecutor;
 
     @GetMapping("/users")
-    public PageResponse<UserResponse> getUsers(Pageable pageable) {
-        GetUsersOp op = GetUsersOp.builder()
-                .pageable(pageable)
-                .build();
-        Page<User> page = operationExecutor.dispatch(op);
+    public PageResponse<UserModel> getUsers(Pageable pageable) {
+        Page<User> page = operationExecutor.dispatch(new GetUsersOp(pageable));
 
-        return PageResponse.fromPage(page, UserResponse::new);
+        return PageResponse.fromPage(page, UserModel::new);
     }
 
     @GetMapping("/users/me")
     public IdentityResponse getIdentity(@AuthenticationPrincipal User user) {
-        GetPrivilegesForUserOp op = GetPrivilegesForUserOp.builder()
-                .user(user)
-                .build();
-        List<Privilege> privileges = operationExecutor.dispatch(op);
+        List<Privilege> privileges = operationExecutor.dispatch(new GetPrivilegesForUserOp(user));
 
         return new IdentityResponse(user, privileges);
     }
 
     @DeleteMapping("/users/{id}")
     public BlankResponse deleteUser(@PathVariable long id) {
-        DeleteUserOp op = DeleteUserOp.builder()
-                .userId(id)
-                .build();
-        operationExecutor.dispatch(op);
+        operationExecutor.dispatch(new DeleteUserOp(id));
 
         return BlankResponse.getInstance();
     }
 
     @PutMapping("/users/{id}/role")
     public BlankResponse changeUserRole(@PathVariable long id, @Valid @RequestBody ChangeUserRoleRequest body) {
-        ChangeUserRoleOp op = ChangeUserRoleOp.builder()
-                .userId(id)
-                .role(body.getRole())
-                .build();
-        operationExecutor.dispatch(op);
+        operationExecutor.dispatch(new ChangeUserRoleOp(id, body.getRole()));
 
         return BlankResponse.getInstance();
     }

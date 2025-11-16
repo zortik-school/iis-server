@@ -1,11 +1,11 @@
 package me.zort.iis.server.iisserver.cqrs.operation.user;
 
-import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import me.zort.iis.server.iisserver.cqrs.Command;
 
 @Getter
-@Builder
+@RequiredArgsConstructor
 public class DeleteUserOp implements Command {
     private final long userId;
 

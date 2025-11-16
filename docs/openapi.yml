@@ -27,6 +27,15 @@ components:
           type: string
         role:
           $ref: '#/components/schemas/Role'
+    Theme:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
     PageInfo:
       type: object
       properties:
@@ -43,6 +52,25 @@ components:
       required: true
       schema:
         type: integer
+    PageIndex:
+      name: pageIndex
+      in: query
+      required: true
+      schema:
+        type: integer
+    PageSize:
+      name: pageSize
+      in: query
+      required: true
+      schema:
+        type: integer
+    Assigned:
+      name: assigned
+      in: query
+      required: false
+      schema:
+        type: boolean
+        description: Filter themes that are assigned to the current user.
   responses:
     JwtResponse:
       description: Used to return JWT token.
@@ -109,16 +137,8 @@ paths:
     get:
       summary: Get all users.
       parameters:
-        - name: pageIndex
-          in: query
-          required: true
-          schema:
-            type: integer
-        - name: pageSize
-          in: query
-          required: true
-          schema:
-            type: integer
+        - $ref: '#/components/parameters/PageIndex'
+        - $ref: '#/components/parameters/PageSize'
       responses:
         '200':
           description: List of users.
@@ -127,7 +147,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  users:
+                  items:
                     type: array
                     items:
                       $ref: '#/components/schemas/User'
@@ -173,3 +193,23 @@ paths:
           description: User role updated successfully.
         '403':
           description: Forbidden. Only ADMIN can update user roles.
+  /themes:
+    get:
+      summary: Get all themes.
+      parameters:
+        - $ref: '#/components/parameters/PageIndex'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: List of themes.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Theme'
+                  page:
+                    $ref: '#/components/schemas/PageInfo'

@@ -2,5 +2,9 @@ package me.zort.iis.server.iisserver.domain.campaign;
 
 public interface Theme {
 
-    // TODO
+    long getId();
+
+    String getName();
+
+    String getDescription();
 }

@@ -1,6 +1,6 @@
 package me.zort.iis.server.iisserver.domain.campaign;
 
-public interface Activity {
+public interface Activity extends Managed {
 
     // TODO
 }

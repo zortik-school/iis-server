@@ -32,9 +32,7 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = extractTokenFromRequest(request);
 
         if (token != null) {
-            ValidateTokenOp op = ValidateTokenOp.builder()
-                    .token(token)
-                    .build();
+            ValidateTokenOp op = new ValidateTokenOp(token);
             try {
                 User user = operationExecutor.dispatch(op);
                 SecurityContextHolder.getContext().setAuthentication(

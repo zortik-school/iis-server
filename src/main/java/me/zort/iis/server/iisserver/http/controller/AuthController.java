@@ -23,12 +23,7 @@ public class AuthController {
 
     @PostMapping("/auth/login")
     public JwtResponse login(@Valid @RequestBody LoginRequest body, HttpServletResponse response) {
-        LoginOp op = LoginOp.builder()
-                .username(body.getUsername())
-                .password(body.getPassword())
-                .build();
-
-        JwtPair jwt = operationExecutor.dispatch(op);
+        JwtPair jwt = operationExecutor.dispatch(new LoginOp(body.getUsername(), body.getPassword()));
         writeRefreshTokenCookie(response, jwt);
 
         return new JwtResponse(jwt.getAccessToken());
@@ -38,13 +33,7 @@ public class AuthController {
     public JwtResponse register(
             @RequestParam(value = "createSession", defaultValue = "true") boolean createSession,
             @Valid @RequestBody RegisterRequest body, HttpServletResponse response) {
-        RegisterOp op = RegisterOp.builder()
-                .username(body.getUsername())
-                .name(body.getName())
-                .password(body.getPassword())
-                .build();
-
-        JwtPair jwt = operationExecutor.dispatch(op);
+        JwtPair jwt = operationExecutor.dispatch(new RegisterOp(body.getUsername(), body.getName(), body.getPassword()));
         if (createSession) {
             writeRefreshTokenCookie(response, jwt);
         }
@@ -54,11 +43,7 @@ public class AuthController {
 
     @GetMapping("/auth/refresh")
     public JwtResponse refresh(@CookieValue("refresh-token") String refreshToken, HttpServletResponse response) {
-        RefreshAuthOp op = RefreshAuthOp.builder()
-                .refreshToken(refreshToken)
-                .build();
-
-        JwtPair newPair = operationExecutor.dispatch(op);
+        JwtPair newPair = operationExecutor.dispatch(new RefreshAuthOp(refreshToken));
         writeRefreshTokenCookie(response, newPair);
 
         return new JwtResponse(newPair.getAccessToken());

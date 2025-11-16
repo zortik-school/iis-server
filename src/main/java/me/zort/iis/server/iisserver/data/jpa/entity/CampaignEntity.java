@@ -12,14 +12,14 @@ public class CampaignEntity {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "campaign", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "campaign", orphanRemoval = true)
     private List<StepEntity> steps;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "theme_id", nullable = false)
     private ThemeEntity theme;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assigned_user_id")
     private UserEntity assignedUser;
 
