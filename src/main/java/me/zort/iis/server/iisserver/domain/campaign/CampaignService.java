@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface CampaignService {
 
-    // TODO
-
     /**
      * Get campaigns assigned to a specific user.
      *

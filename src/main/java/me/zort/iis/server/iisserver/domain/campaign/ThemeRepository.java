@@ -3,7 +3,21 @@ package me.zort.iis.server.iisserver.domain.campaign;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
+
 public interface ThemeRepository {
+
+    /**
+     * Saves a theme.
+     *
+     * @param theme the theme to be saved
+     * @return the saved theme
+     */
+    Theme save(Theme theme);
+
+    void deleteById(Long themeId);
+
+    Optional<Theme> findById(Long themeId);
 
     /**
      * Finds all themes with pagination.

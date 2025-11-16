@@ -1,9 +1,6 @@
 package me.zort.iis.server.iisserver.data.jpa.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
 import me.zort.iis.server.iisserver.data.jpa.JpaEntity;
 import org.hibernate.proxy.HibernateProxy;
@@ -19,6 +16,7 @@ import java.util.Objects;
 @Entity(name = "iis_theme")
 public class ThemeEntity implements JpaEntity<Long> {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)

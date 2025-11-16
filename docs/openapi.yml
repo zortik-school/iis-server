@@ -36,6 +36,13 @@ components:
           type: string
         description:
           type: string
+    Campaign:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
     PageInfo:
       type: object
       properties:
@@ -194,6 +201,33 @@ paths:
         '403':
           description: Forbidden. Only ADMIN can update user roles.
   /themes:
+    post:
+      summary: Create a new theme.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':
+          description: Theme created successfully.
+        '403':
+          description: Forbidden. Only ADMIN can create themes.
+    delete:
+      summary: Delete a theme.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      responses:
+        '200':
+          description: Theme deleted successfully.
+        '403':
+          description: Forbidden. Only ADMIN can delete themes.
     get:
       summary: Get all themes.
       parameters:
@@ -211,5 +245,74 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Theme'
+                  page:
+                    $ref: '#/components/schemas/PageInfo'
+  /themes/{id}:
+    put:
+      summary: Update theme by ID.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':
+          description: Theme updated successfully.
+    get:
+      summary: Get theme by ID.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      responses:
+        '200':
+          description: Theme information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Theme'
+  /themes/{id}/inspect:
+    get:
+      summary: Inspect theme by ID.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      responses:
+        '200':
+          description: Theme deep information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Theme'
+  /campaigns:
+    get:
+      summary: Get campaigns by some criteria.
+      parameters:
+        - $ref: '#/components/parameters/PageIndex'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Assigned'
+        - name: themeId
+          in: query
+          required: false
+          schema:
+            type: integer
+      description: If 'assigned' is true, returns only campaigns assigned to the current user. If 'themeId' is provided, filters campaigns by the specified theme ID.
+      responses:
+        '200':
+          description: List of campaigns.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Campaign'
                   page:
                     $ref: '#/components/schemas/PageInfo'

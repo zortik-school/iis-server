@@ -2,7 +2,7 @@ package me.zort.iis.server.iisserver.cqrs.filter;
 
 import me.zort.iis.server.iisserver.aop.access.RequirePrivilege;
 import me.zort.iis.server.iisserver.cqrs.Operation;
-import me.zort.iis.server.iisserver.cqrs.operation.theme.GetAllThemesOp;
+import me.zort.iis.server.iisserver.cqrs.operation.theme.*;
 import me.zort.iis.server.iisserver.domain.access.Privilege;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,11 @@ import java.util.function.Supplier;
 public class ThemeManagementFilter extends AggregateFilter {
     private static final List<Class<? extends Operation<?>>> MANAGED_OPERATIONS = List.of(
             // Theme management operations handled by this filter
-            GetAllThemesOp.class
+            GetAllThemesOp.class,
+            CreateThemeOp.class,
+            DeleteThemeOp.class,
+            InspectThemeOp.class,
+            UpdateThemeOp.class
     );
 
     public ThemeManagementFilter() {
