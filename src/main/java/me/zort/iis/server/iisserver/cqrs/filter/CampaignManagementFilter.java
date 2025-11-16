@@ -2,35 +2,25 @@ package me.zort.iis.server.iisserver.cqrs.filter;
 
 import me.zort.iis.server.iisserver.aop.access.RequirePrivilege;
 import me.zort.iis.server.iisserver.cqrs.Operation;
-import me.zort.iis.server.iisserver.cqrs.operation.campaigns.GetThemeCampaignsOp;
-import me.zort.iis.server.iisserver.cqrs.operation.theme.*;
+import me.zort.iis.server.iisserver.cqrs.operation.campaigns.GetAllCampaignsOp;
 import me.zort.iis.server.iisserver.domain.access.Privilege;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.function.Supplier;
 
-/**
- * Filter that manages theme-related operations, ensuring that only, ensuring that only
- * users with the MANAGE_THEMES privilege can execute them.
- */
 @Component
-public class ThemeManagementFilter extends AggregateFilter {
+public class CampaignManagementFilter extends AggregateFilter {
     private static final List<Class<? extends Operation<?>>> MANAGED_OPERATIONS = List.of(
             // Theme management operations handled by this filter
-            GetAllThemesOp.class,
-            CreateThemeOp.class,
-            DeleteThemeOp.class,
-            InspectThemeOp.class,
-            UpdateThemeOp.class,
-            GetThemeCampaignsOp.class
+            GetAllCampaignsOp.class
     );
 
-    public ThemeManagementFilter() {
+    public CampaignManagementFilter() {
         super(MANAGED_OPERATIONS);
     }
 
-    @RequirePrivilege(privilege = Privilege.MANAGE_THEMES)
+    @RequirePrivilege(privilege = Privilege.MANAGE_CAMPAIGNS)
     @Override
     public Object filter(Operation<Object> operation, Supplier<Object> next) {
         return next.get();

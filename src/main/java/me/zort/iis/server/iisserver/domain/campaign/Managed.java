@@ -1,5 +1,7 @@
 package me.zort.iis.server.iisserver.domain.campaign;
 
+import org.jetbrains.annotations.Nullable;
+
 public interface Managed {
 
     /**
@@ -7,5 +9,6 @@ public interface Managed {
      *
      * @return the assigned user's ID
      */
-    long getAssignedUserId();
+    @Nullable
+    Long getAssignedUserId();
 }

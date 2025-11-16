@@ -31,4 +31,12 @@ public interface CampaignFacade {
      * @return a page of campaigns associated with the specified theme
      */
     Page<Campaign> getCampaignsForTheme(long themeId, Pageable pageable);
+
+    /**
+     * Retrieves a paginated list of all campaigns.
+     *
+     * @param pageable pagination information
+     * @return a page of all campaigns
+     */
+    Page<Campaign> getAllCampaigns(Pageable pageable);
 }

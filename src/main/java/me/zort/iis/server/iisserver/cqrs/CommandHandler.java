@@ -16,6 +16,8 @@ public abstract class CommandHandler<T extends Command> implements OperationHand
 
     @Override
     public Void handle(T operation) {
+        // Call the execute method to perform the command operation
+        // and ignore the return value
         execute(operation);
 
         return null;

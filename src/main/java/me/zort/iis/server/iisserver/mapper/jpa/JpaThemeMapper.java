@@ -6,8 +6,6 @@ import me.zort.iis.server.iisserver.domain.campaign.Theme;
 import me.zort.iis.server.iisserver.domain.campaign.ThemeImpl;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class JpaThemeMapper implements JpaMapper<Theme, ThemeEntity> {
 
@@ -18,6 +16,11 @@ public class JpaThemeMapper implements JpaMapper<Theme, ThemeEntity> {
 
     @Override
     public ThemeEntity toEntity(Theme domain) {
-        return new ThemeEntity(domain.getId(), domain.getName(), domain.getDescription(), List.of());
+        ThemeEntity entity = new ThemeEntity();
+        entity.setId(domain.getId());
+        entity.setName(domain.getName());
+        entity.setDescription(domain.getDescription());
+
+        return entity;
     }
 }

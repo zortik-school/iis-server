@@ -6,9 +6,9 @@ import me.zort.iis.server.iisserver.data.jpa.JpaMapper;
 import me.zort.iis.server.iisserver.data.jpa.entity.ThemeEntity;
 import me.zort.iis.server.iisserver.domain.campaign.Theme;
 import me.zort.iis.server.iisserver.domain.campaign.ThemeRepository;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
-@Service
+@Repository
 public class JpaThemeRepositoryDelegate extends JpaCrudRepository<Theme, ThemeEntity, Long> implements ThemeRepository {
 
     public JpaThemeRepositoryDelegate(
