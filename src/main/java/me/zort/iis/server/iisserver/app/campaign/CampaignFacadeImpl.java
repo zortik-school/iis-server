@@ -14,8 +14,7 @@ public class CampaignFacadeImpl implements CampaignFacade {
 
     @Override
     public Campaign createCampaign(CreateCampaignArgs args) {
-        // TODO
-        throw new UnsupportedOperationException("Not implemented yet");
+        return campaignService.createCampaign(args);
     }
 
     @Override

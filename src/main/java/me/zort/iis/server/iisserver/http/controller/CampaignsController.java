@@ -2,22 +2,30 @@ package me.zort.iis.server.iisserver.http.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.iis.server.iisserver.cqrs.OperationExecutor;
+import me.zort.iis.server.iisserver.cqrs.operation.campaigns.CreateCampaignOp;
 import me.zort.iis.server.iisserver.cqrs.operation.campaigns.GetAllCampaignsOp;
 import me.zort.iis.server.iisserver.cqrs.operation.campaigns.GetAssignedCampaignsOp;
 import me.zort.iis.server.iisserver.cqrs.operation.campaigns.GetThemeCampaignsOp;
 import me.zort.iis.server.iisserver.domain.campaign.Campaign;
+import me.zort.iis.server.iisserver.http.model.BlankResponse;
 import me.zort.iis.server.iisserver.http.model.PageResponse;
 import me.zort.iis.server.iisserver.http.model.campaign.CampaignModel;
+import me.zort.iis.server.iisserver.http.model.campaign.CreateCampaignRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 public class CampaignsController {
     private final OperationExecutor operationExecutor;
+
+    @PostMapping("/campaigns")
+    public BlankResponse createCampaign(@RequestBody CreateCampaignRequest body) {
+        operationExecutor.dispatch(new CreateCampaignOp(body.getName(), body.getThemeId()));
+
+        return BlankResponse.getInstance();
+    }
 
     @GetMapping("/campaigns")
     public PageResponse<CampaignModel> getCampaigns(

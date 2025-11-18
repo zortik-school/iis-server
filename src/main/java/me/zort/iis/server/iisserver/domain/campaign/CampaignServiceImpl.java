@@ -1,6 +1,8 @@
 package me.zort.iis.server.iisserver.domain.campaign;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.iis.server.iisserver.domain.campaign.event.CampaignCreatedEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,18 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CampaignServiceImpl implements CampaignService {
     private final CampaignRepository repository;
+    private final ApplicationEventPublisher eventPublisher;
+
+    @Override
+    public Campaign createCampaign(CreateCampaignArgs args) {
+        Campaign campaign = new CampaignImpl(-1, args.getName(), null, args.getThemeId());
+
+        campaign = repository.save(campaign);
+
+        eventPublisher.publishEvent(new CampaignCreatedEvent(campaign.getId()));
+
+        return campaign;
+    }
 
     @Override
     public Page<Campaign> getAssignedCampaigns(long userId, Pageable pageable) {

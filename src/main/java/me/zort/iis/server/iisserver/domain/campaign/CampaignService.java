@@ -6,6 +6,14 @@ import org.springframework.data.domain.Pageable;
 public interface CampaignService {
 
     /**
+     * Create a new campaign based on the provided arguments.
+     *
+     * @param args the arguments required to create a campaign
+     * @return the created Campaign object
+     */
+    Campaign createCampaign(CreateCampaignArgs args);
+
+    /**
      * Get campaigns assigned to a specific user.
      *
      * @param userId the ID of the user

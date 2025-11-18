@@ -6,6 +6,14 @@ import org.springframework.data.domain.Pageable;
 public interface CampaignRepository {
 
     /**
+     * Save a campaign.
+     *
+     * @param campaign the campaign to save
+     * @return the saved campaign
+     */
+    Campaign save(Campaign campaign);
+
+    /**
      * Find all campaigns with pagination.
      *
      * @param pageable pagination information

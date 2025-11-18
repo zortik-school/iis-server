@@ -290,6 +290,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/Theme'
   /campaigns:
+    post:
+      summary: Create a campaign.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                themeId:
+                  type: integer
+      responses:
+        '200':
+          description: Campaign created successfully.
     get:
       summary: Get campaigns by some criteria.
       parameters:

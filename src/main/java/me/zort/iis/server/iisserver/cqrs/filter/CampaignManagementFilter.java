@@ -2,6 +2,7 @@ package me.zort.iis.server.iisserver.cqrs.filter;
 
 import me.zort.iis.server.iisserver.aop.access.RequirePrivilege;
 import me.zort.iis.server.iisserver.cqrs.Operation;
+import me.zort.iis.server.iisserver.cqrs.operation.campaigns.CreateCampaignOp;
 import me.zort.iis.server.iisserver.cqrs.operation.campaigns.GetAllCampaignsOp;
 import me.zort.iis.server.iisserver.domain.access.Privilege;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,8 @@ import java.util.function.Supplier;
 public class CampaignManagementFilter extends AggregateFilter {
     private static final List<Class<? extends Operation<?>>> MANAGED_OPERATIONS = List.of(
             // Theme management operations handled by this filter
-            GetAllCampaignsOp.class
+            GetAllCampaignsOp.class,
+            CreateCampaignOp.class
     );
 
     public CampaignManagementFilter() {

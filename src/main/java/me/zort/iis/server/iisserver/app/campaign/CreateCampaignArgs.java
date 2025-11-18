@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class CreateCampaignArgs {
+public class CreateCampaignArgs implements me.zort.iis.server.iisserver.domain.campaign.CreateCampaignArgs {
     private final String name;
-    private final String description;
+    private final long themeId;
 
 }
