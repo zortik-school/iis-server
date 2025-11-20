@@ -11,4 +11,6 @@ public interface JpaCampaignRepository extends JpaRepository<CampaignEntity, Lon
     Page<CampaignEntity> findAllByTheme_Id(@NonNull Long id, Pageable pageable);
 
     Page<CampaignEntity> findAllByAssignedUser_Id(@NonNull Long id, Pageable pageable);
+
+    boolean existsByAssignedUser_IdAndTheme_Id(Long assignedUserId, Long themeId);
 }

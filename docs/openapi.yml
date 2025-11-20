@@ -43,6 +43,8 @@ components:
           type: integer
         name:
           type: string
+        themeId:
+          type: integer
     PageInfo:
       type: object
       properties:
@@ -172,6 +174,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
   /users/{id}:
+    get:
+      summary: Get user by ID.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      responses:
+        '200':
+          description: User information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
     delete:
       summary: Delete user by ID.
       parameters:
@@ -340,3 +353,63 @@ paths:
       responses:
         '200':
           description: Campaign deleted successfully.
+  /campaigns/{id}/inspect:
+    get:
+      summary: Inspect campaign by ID.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      responses:
+        '200':
+          description: Campaign deep information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  campaign:
+                    $ref: '#/components/schemas/Campaign'
+                  assignedUserId:
+                    type: integer
+                    description: The ID of the user assigned to this campaign, if any.
+  /campaigns/{id}/assign:
+    post:
+      summary: Assign a user to a campaign.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+      responses:
+        '200':
+          description: Campaign assigned successfully.
+  /query/users:
+    get:
+      summary: Query users.
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/PageIndex'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: List of users matching the query.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  page:
+                    $ref: '#/components/schemas/PageInfo'

@@ -7,8 +7,13 @@ import me.zort.iis.server.iisserver.domain.campaign.Campaign;
 
 @Getter
 @AllArgsConstructor
-public class CreateCampaignOp implements Operation<Campaign> {
-    private final String name;
-    private final long themeId;
+public class InspectCampaignOp implements Operation<InspectCampaignOp.Result> {
+    private final long campaignId;
 
+    @Getter
+    @AllArgsConstructor
+    public static class Result {
+        private final Campaign campaign;
+
+    }
 }

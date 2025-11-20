@@ -3,11 +3,14 @@ package me.zort.iis.server.iisserver.domain.campaign;
 import lombok.RequiredArgsConstructor;
 import me.zort.iis.server.iisserver.domain.campaign.event.CampaignCreatedEvent;
 import me.zort.iis.server.iisserver.domain.campaign.event.CampaignDeletedEvent;
+import me.zort.iis.server.iisserver.domain.campaign.event.CampaignUserAssignedEvent;
 import me.zort.iis.server.iisserver.domain.campaign.exception.CampaignNotFoundException;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,8 +39,30 @@ public class CampaignServiceImpl implements CampaignService {
     }
 
     @Override
+    public Optional<Campaign> getCampaign(long campaignId) {
+        return repository.findById(campaignId);
+    }
+
+    @Override
+    public void assignUser(long campaignId, Long userId) {
+        Campaign campaign = repository.findById(campaignId).orElseThrow(() -> new CampaignNotFoundException(campaignId));
+        campaign.setAssignedUserId(userId);
+
+        repository.save(campaign);
+
+        if (userId != null) {
+            eventPublisher.publishEvent(new CampaignUserAssignedEvent(campaignId, userId));
+        }
+    }
+
+    @Override
     public Page<Campaign> getAssignedCampaigns(long userId, Pageable pageable) {
         return repository.findAllByAssignedUserId(userId, pageable);
+    }
+
+    @Override
+    public boolean isAnyCampaignOfThemeAssignedToUser(long themeId, long userId) {
+        return repository.existsByAssignedUserIdAndThemeId(userId, themeId);
     }
 
     @Override

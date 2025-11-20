@@ -4,22 +4,24 @@ import lombok.RequiredArgsConstructor;
 import me.zort.iis.server.iisserver.app.campaign.CampaignFacade;
 import me.zort.iis.server.iisserver.app.campaign.CreateCampaignArgs;
 import me.zort.iis.server.iisserver.cqrs.CommandHandler;
+import me.zort.iis.server.iisserver.cqrs.OperationHandler;
 import me.zort.iis.server.iisserver.cqrs.operation.campaigns.CreateCampaignOp;
+import me.zort.iis.server.iisserver.domain.campaign.Campaign;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CreateCampaignHandler extends CommandHandler<CreateCampaignOp> {
+public class CreateCampaignHandler implements OperationHandler<CreateCampaignOp, Campaign> {
     private final CampaignFacade campaignFacade;
 
     @Override
-    public void execute(CreateCampaignOp operation) {
+    public Campaign handle(CreateCampaignOp operation) {
         CreateCampaignArgs args = CreateCampaignArgs.builder()
                 .name(operation.getName())
                 .themeId(operation.getThemeId())
                 .build();
 
-        campaignFacade.createCampaign(args);
+        return campaignFacade.createCampaign(args);
     }
 
     @Override

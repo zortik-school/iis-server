@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserFacadeImpl implements UserFacade {
@@ -21,9 +23,15 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     public void deleteUser(long userId) {
-        userService.getUser(userId).orElseThrow(() -> new UserNotFoundException(userId));
+        // Ensure user exists before deletion
+        getUser(userId);
 
         userService.deleteUser(userId);
+    }
+
+    @Override
+    public User getUser(long userId) {
+        return userService.getUser(userId).orElseThrow(() -> new UserNotFoundException(userId));
     }
 
     @Override

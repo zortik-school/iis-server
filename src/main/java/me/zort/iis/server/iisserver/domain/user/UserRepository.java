@@ -47,4 +47,13 @@ public interface UserRepository {
      * @return a page of users
      */
     Page<User> findAll(Pageable pageable);
+
+    /**
+     * Finds all users whose names contain the specified substring, with pagination.
+     *
+     * @param name the substring to search for in names
+     * @param pageable pagination information
+     * @return a page of users whose names contain the specified substring
+     */
+    Page<User> findAllByNameContaining(String name, Pageable pageable);
 }

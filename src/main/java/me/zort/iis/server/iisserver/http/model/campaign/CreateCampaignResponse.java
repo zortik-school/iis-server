@@ -4,12 +4,12 @@ import lombok.Getter;
 import me.zort.iis.server.iisserver.domain.campaign.Campaign;
 
 @Getter
-public class CampaignModel {
+public class CreateCampaignResponse {
     private final long id;
     private final String name;
     private final long themeId;
 
-    public CampaignModel(Campaign campaign) {
+    public CreateCampaignResponse(Campaign campaign) {
         this.id = campaign.getId();
         this.name = campaign.getName();
         this.themeId = campaign.getThemeId();

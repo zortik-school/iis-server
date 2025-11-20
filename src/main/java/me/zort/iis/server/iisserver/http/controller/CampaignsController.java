@@ -1,13 +1,13 @@
 package me.zort.iis.server.iisserver.http.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.zort.iis.server.iisserver.cqrs.OperationExecutor;
 import me.zort.iis.server.iisserver.cqrs.operation.campaigns.*;
 import me.zort.iis.server.iisserver.domain.campaign.Campaign;
 import me.zort.iis.server.iisserver.http.model.BlankResponse;
 import me.zort.iis.server.iisserver.http.model.PageResponse;
-import me.zort.iis.server.iisserver.http.model.campaign.CampaignModel;
-import me.zort.iis.server.iisserver.http.model.campaign.CreateCampaignRequest;
+import me.zort.iis.server.iisserver.http.model.campaign.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -18,15 +18,30 @@ public class CampaignsController {
     private final OperationExecutor operationExecutor;
 
     @PostMapping("/campaigns")
-    public BlankResponse createCampaign(@RequestBody CreateCampaignRequest body) {
-        operationExecutor.dispatch(new CreateCampaignOp(body.getName(), body.getThemeId()));
+    public CreateCampaignResponse createCampaign(@RequestBody CreateCampaignRequest body) {
+        Campaign campaign = operationExecutor.dispatch(new CreateCampaignOp(body.getName(), body.getThemeId()));
 
-        return BlankResponse.getInstance();
+        return new CreateCampaignResponse(campaign);
     }
 
     @DeleteMapping("/campaigns/{id}")
     public BlankResponse deleteCampaign(@PathVariable long id) {
         operationExecutor.dispatch(new DeleteCampaignOp(id));
+
+        return BlankResponse.getInstance();
+    }
+
+    @GetMapping("/campaigns/{id}/inspect")
+    public InspectCampaignResponse inspectCampaign(@PathVariable long id) {
+        InspectCampaignOp.Result result = operationExecutor.dispatch(new InspectCampaignOp(id));
+
+        return new InspectCampaignResponse(result);
+    }
+
+    @PostMapping("/campaigns/{id}/assign")
+    public BlankResponse assignUserToCampaign(
+            @PathVariable long id, @Valid @RequestBody AssignUserToCampaignRequest body) {
+        operationExecutor.dispatch(new AssignUserToCampaignOp(id, body.getUserId()));
 
         return BlankResponse.getInstance();
     }

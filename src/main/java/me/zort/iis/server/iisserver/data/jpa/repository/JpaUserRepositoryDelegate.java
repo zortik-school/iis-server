@@ -6,6 +6,8 @@ import me.zort.iis.server.iisserver.data.jpa.JpaMapper;
 import me.zort.iis.server.iisserver.data.jpa.entity.UserEntity;
 import me.zort.iis.server.iisserver.domain.user.User;
 import me.zort.iis.server.iisserver.domain.user.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -26,5 +28,10 @@ public class JpaUserRepositoryDelegate extends JpaCrudRepository<User, UserEntit
     @Override
     public Optional<User> findByUsername(String username) {
         return repository.findByUsername(username).map(mapper::toDomain);
+    }
+
+    @Override
+    public Page<User> findAllByNameContaining(String username, Pageable pageable) {
+        return repository.findAllByNameContainingIgnoreCase(username, pageable).map(mapper::toDomain);
     }
 }

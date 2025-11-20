@@ -55,4 +55,13 @@ public interface CampaignRepository {
      * @return a page of campaigns assigned to the user
      */
     Page<Campaign> findAllByAssignedUserId(long userId, Pageable pageable);
+
+    /**
+     * Check if a campaign of a specific theme is assigned to a user.
+     *
+     * @param userId the user id
+     * @param themeId the theme id
+     * @return true if such a campaign exists, false otherwise
+     */
+    boolean existsByAssignedUserIdAndThemeId(long userId, long themeId);
 }

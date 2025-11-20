@@ -32,4 +32,9 @@ public class JpaCampaignRepositoryDelegate extends JpaCrudRepository<Campaign, C
     public Page<Campaign> findAllByAssignedUserId(long userId, Pageable pageable) {
         return repository.findAllByAssignedUser_Id(userId, pageable).map(mapper::toDomain);
     }
+
+    @Override
+    public boolean existsByAssignedUserIdAndThemeId(long userId, long themeId) {
+        return repository.existsByAssignedUser_IdAndTheme_Id(userId, themeId);
+    }
 }

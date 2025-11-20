@@ -3,10 +3,7 @@ package me.zort.iis.server.iisserver.http.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.zort.iis.server.iisserver.cqrs.OperationExecutor;
-import me.zort.iis.server.iisserver.cqrs.operation.user.ChangeUserRoleOp;
-import me.zort.iis.server.iisserver.cqrs.operation.user.DeleteUserOp;
-import me.zort.iis.server.iisserver.cqrs.operation.user.GetPrivilegesForUserOp;
-import me.zort.iis.server.iisserver.cqrs.operation.user.GetUsersOp;
+import me.zort.iis.server.iisserver.cqrs.operation.user.*;
 import me.zort.iis.server.iisserver.domain.access.Privilege;
 import me.zort.iis.server.iisserver.domain.user.User;
 import me.zort.iis.server.iisserver.http.model.BlankResponse;
@@ -38,6 +35,13 @@ public class UsersController {
         List<Privilege> privileges = operationExecutor.dispatch(new GetPrivilegesForUserOp(user));
 
         return new IdentityResponse(user, privileges);
+    }
+
+    @GetMapping("/users/{id}")
+    public UserModel getUserById(@PathVariable long id) {
+        User user = operationExecutor.dispatch(new GetUserOp(id));
+
+        return new UserModel(user);
     }
 
     @DeleteMapping("/users/{id}")
