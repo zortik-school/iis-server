@@ -1,5 +1,6 @@
 package me.zort.iis.server.iisserver.domain.campaign;
 
+import me.zort.iis.server.iisserver.domain.campaign.exception.CampaignNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,6 +13,14 @@ public interface CampaignService {
      * @return the created Campaign object
      */
     Campaign createCampaign(CreateCampaignArgs args);
+
+    /**
+     * Delete a campaign identified by the given campaign ID.
+     *
+     * @param campaignId the unique ID of the campaign to delete
+     * @throws CampaignNotFoundException If no campaign with the given ID exists
+     */
+    void deleteCampaign(long campaignId);
 
     /**
      * Get campaigns assigned to a specific user.

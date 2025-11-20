@@ -332,3 +332,11 @@ paths:
                       $ref: '#/components/schemas/Campaign'
                   page:
                     $ref: '#/components/schemas/PageInfo'
+  /campaigns/{id}:
+    delete:
+      summary: Delete a campaign by ID.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      responses:
+        '200':
+          description: Campaign deleted successfully.

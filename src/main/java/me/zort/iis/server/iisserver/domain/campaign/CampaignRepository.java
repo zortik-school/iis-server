@@ -3,6 +3,8 @@ package me.zort.iis.server.iisserver.domain.campaign;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
+
 public interface CampaignRepository {
 
     /**
@@ -12,6 +14,21 @@ public interface CampaignRepository {
      * @return the saved campaign
      */
     Campaign save(Campaign campaign);
+
+    /**
+     * Delete a campaign by its ID.
+     *
+     * @param campaignId the ID of the campaign to delete
+     */
+    void deleteById(Long campaignId);
+
+    /**
+     * Find a campaign by its ID.
+     *
+     * @param campaignId the ID of the campaign
+     * @return an Optional containing the found campaign, or empty if not found
+     */
+    Optional<Campaign> findById(Long campaignId);
 
     /**
      * Find all campaigns with pagination.

@@ -27,6 +27,9 @@ public class CampaignsController {
         return BlankResponse.getInstance();
     }
 
+    @DeleteMapping("/campaigns/{id}")
+    // TODO
+
     @GetMapping("/campaigns")
     public PageResponse<CampaignModel> getCampaigns(
             @RequestParam(value = "assigned", required = false) Boolean assigned,

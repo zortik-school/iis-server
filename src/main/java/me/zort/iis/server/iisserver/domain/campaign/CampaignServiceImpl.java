@@ -2,6 +2,8 @@ package me.zort.iis.server.iisserver.domain.campaign;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.iis.server.iisserver.domain.campaign.event.CampaignCreatedEvent;
+import me.zort.iis.server.iisserver.domain.campaign.event.CampaignDeletedEvent;
+import me.zort.iis.server.iisserver.domain.campaign.exception.CampaignNotFoundException;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +24,15 @@ public class CampaignServiceImpl implements CampaignService {
         eventPublisher.publishEvent(new CampaignCreatedEvent(campaign.getId()));
 
         return campaign;
+    }
+
+    @Override
+    public void deleteCampaign(long campaignId) {
+        repository.findById(campaignId).orElseThrow(() -> new CampaignNotFoundException(campaignId));
+
+        repository.deleteById(campaignId);
+
+        eventPublisher.publishEvent(new CampaignDeletedEvent(campaignId));
     }
 
     @Override

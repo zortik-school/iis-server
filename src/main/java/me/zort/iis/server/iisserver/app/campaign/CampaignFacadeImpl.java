@@ -18,6 +18,11 @@ public class CampaignFacadeImpl implements CampaignFacade {
     }
 
     @Override
+    public void deleteCampaign(long campaignId) {
+        campaignService.deleteCampaign(campaignId);
+    }
+
+    @Override
     public Page<Campaign> getAssignedCampaigns(long userId, Pageable pageable) {
         return campaignService.getAssignedCampaigns(userId, pageable);
     }
