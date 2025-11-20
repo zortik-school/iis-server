@@ -2,10 +2,7 @@ package me.zort.iis.server.iisserver.http.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.iis.server.iisserver.cqrs.OperationExecutor;
-import me.zort.iis.server.iisserver.cqrs.operation.campaigns.CreateCampaignOp;
-import me.zort.iis.server.iisserver.cqrs.operation.campaigns.GetAllCampaignsOp;
-import me.zort.iis.server.iisserver.cqrs.operation.campaigns.GetAssignedCampaignsOp;
-import me.zort.iis.server.iisserver.cqrs.operation.campaigns.GetThemeCampaignsOp;
+import me.zort.iis.server.iisserver.cqrs.operation.campaigns.*;
 import me.zort.iis.server.iisserver.domain.campaign.Campaign;
 import me.zort.iis.server.iisserver.http.model.BlankResponse;
 import me.zort.iis.server.iisserver.http.model.PageResponse;
@@ -28,7 +25,11 @@ public class CampaignsController {
     }
 
     @DeleteMapping("/campaigns/{id}")
-    // TODO
+    public BlankResponse deleteCampaign(@PathVariable long id) {
+        operationExecutor.dispatch(new DeleteCampaignOp(id));
+
+        return BlankResponse.getInstance();
+    }
 
     @GetMapping("/campaigns")
     public PageResponse<CampaignModel> getCampaigns(
