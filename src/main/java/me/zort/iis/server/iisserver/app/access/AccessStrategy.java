@@ -14,11 +14,20 @@ public interface AccessStrategy {
     boolean canViewTheme(long themeId, User user);
 
     /**
-     * Checks if the current user can inspect the campaign with the given ID.
+     * Checks if the current user can manage the campaign with the given ID.
      *
      * @param campaignId the ID of the campaign to check access for
      * @param user the user whose access is being checked
-     * @return true if the user can inspect the campaign, false otherwise
+     * @return true if the user can manage the campaign, false otherwise
      */
-    boolean canInspectCampaign(long campaignId, User user);
+    boolean canManageCampaign(long campaignId, User user);
+
+    /**
+     * Checks if the current user can manage the campaign step with the given ID.
+     *
+     * @param campaignStepId the ID of the campaign step to check access for
+     * @param user the user whose access is being checked
+     * @return true if the user can manage the campaign step, false otherwise
+     */
+    boolean canManageCampaignStep(long campaignStepId, User user);
 }

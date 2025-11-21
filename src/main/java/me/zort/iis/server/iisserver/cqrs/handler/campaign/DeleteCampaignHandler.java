@@ -3,7 +3,7 @@ package me.zort.iis.server.iisserver.cqrs.handler.campaign;
 import lombok.RequiredArgsConstructor;
 import me.zort.iis.server.iisserver.app.campaign.CampaignFacade;
 import me.zort.iis.server.iisserver.cqrs.CommandHandler;
-import me.zort.iis.server.iisserver.cqrs.operation.campaigns.DeleteCampaignOp;
+import me.zort.iis.server.iisserver.cqrs.operation.campaign.DeleteCampaignOp;
 import org.springframework.stereotype.Component;
 
 @Component

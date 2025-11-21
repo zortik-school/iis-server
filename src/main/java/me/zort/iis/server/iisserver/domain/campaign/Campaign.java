@@ -16,5 +16,10 @@ public interface Campaign extends Managed {
      */
     String getName();
 
+    /**
+     * The ID of the theme associated with the campaign.
+     *
+     * @return ID of the theme.
+     */
     long getThemeId();
 }

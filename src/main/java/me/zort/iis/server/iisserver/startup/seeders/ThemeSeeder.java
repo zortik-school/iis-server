@@ -3,9 +3,11 @@ package me.zort.iis.server.iisserver.startup.seeders;
 import lombok.RequiredArgsConstructor;
 import me.zort.iis.server.iisserver.app.theme.CreateThemeArgs;
 import me.zort.iis.server.iisserver.app.theme.ThemeFacade;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
+@Order(1)
 @Component
 @RequiredArgsConstructor
 public class ThemeSeeder implements Seeder {

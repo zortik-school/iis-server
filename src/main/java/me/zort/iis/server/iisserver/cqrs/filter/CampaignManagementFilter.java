@@ -2,9 +2,9 @@ package me.zort.iis.server.iisserver.cqrs.filter;
 
 import me.zort.iis.server.iisserver.aop.access.RequirePrivilege;
 import me.zort.iis.server.iisserver.cqrs.Operation;
-import me.zort.iis.server.iisserver.cqrs.operation.campaigns.AssignUserToCampaignOp;
-import me.zort.iis.server.iisserver.cqrs.operation.campaigns.CreateCampaignOp;
-import me.zort.iis.server.iisserver.cqrs.operation.campaigns.GetAllCampaignsOp;
+import me.zort.iis.server.iisserver.cqrs.operation.campaign.AssignUserToCampaignOp;
+import me.zort.iis.server.iisserver.cqrs.operation.campaign.CreateCampaignOp;
+import me.zort.iis.server.iisserver.cqrs.operation.campaign.GetAllCampaignsOp;
 import me.zort.iis.server.iisserver.domain.access.Privilege;
 import org.springframework.stereotype.Component;
 

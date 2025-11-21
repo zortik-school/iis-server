@@ -1,7 +1,7 @@
 package me.zort.iis.server.iisserver.http.model.campaign;
 
 import lombok.Getter;
-import me.zort.iis.server.iisserver.cqrs.operation.campaigns.InspectCampaignOp;
+import me.zort.iis.server.iisserver.cqrs.operation.campaign.InspectCampaignOp;
 
 @Getter
 public class InspectCampaignResponse {

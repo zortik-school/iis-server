@@ -3,9 +3,8 @@ package me.zort.iis.server.iisserver.cqrs.handler.campaign;
 import lombok.RequiredArgsConstructor;
 import me.zort.iis.server.iisserver.app.campaign.CampaignFacade;
 import me.zort.iis.server.iisserver.app.campaign.CreateCampaignArgs;
-import me.zort.iis.server.iisserver.cqrs.CommandHandler;
 import me.zort.iis.server.iisserver.cqrs.OperationHandler;
-import me.zort.iis.server.iisserver.cqrs.operation.campaigns.CreateCampaignOp;
+import me.zort.iis.server.iisserver.cqrs.operation.campaign.CreateCampaignOp;
 import me.zort.iis.server.iisserver.domain.campaign.Campaign;
 import org.springframework.stereotype.Component;
 

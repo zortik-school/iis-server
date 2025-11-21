@@ -22,7 +22,7 @@ public class CampaignEntity implements JpaEntity<Long> {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "campaign", orphanRemoval = true)
+    @OneToMany(mappedBy = "campaign", cascade = CascadeType.REMOVE)
     @ToString.Exclude
     private List<StepEntity> steps;
 

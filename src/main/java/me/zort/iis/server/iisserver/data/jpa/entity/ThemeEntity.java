@@ -25,7 +25,7 @@ public class ThemeEntity implements JpaEntity<Long> {
     @Column(nullable = false)
     private String description;
 
-    @OneToMany(mappedBy = "theme", orphanRemoval = true)
+    @OneToMany(mappedBy = "theme", cascade = CascadeType.REMOVE)
     @ToString.Exclude
     private List<CampaignEntity> campaigns;
 

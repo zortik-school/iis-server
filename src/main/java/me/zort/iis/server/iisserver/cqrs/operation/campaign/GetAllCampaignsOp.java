@@ -1,4 +1,4 @@
-package me.zort.iis.server.iisserver.cqrs.operation.campaigns;
+package me.zort.iis.server.iisserver.cqrs.operation.campaign;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

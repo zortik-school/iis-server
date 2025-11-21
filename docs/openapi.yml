@@ -45,6 +45,22 @@ components:
           type: string
         themeId:
           type: integer
+    CampaignStep:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    CampaignStepFull:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        active:
+          type: boolean
     PageInfo:
       type: object
       properties:
@@ -371,6 +387,23 @@ paths:
                   assignedUserId:
                     type: integer
                     description: The ID of the user assigned to this campaign, if any.
+  /campaigns/{id}/steps:
+    get:
+      summary: Get steps of a campaign by ID.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      responses:
+        '200':
+          description: List of campaign steps.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CampaignStepFull'
   /campaigns/{id}/assign:
     post:
       summary: Assign a user to a campaign.
@@ -388,6 +421,56 @@ paths:
       responses:
         '200':
           description: Campaign assigned successfully.
+  /steps:
+    post:
+      summary: Create a campaign step.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                campaignId:
+                  type: integer
+      responses:
+        '200':
+          description: Campaign step created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignStep'
+    get:
+      summary: Get campaign steps by some criteria.
+      parameters:
+        - $ref: '#/components/parameters/PageIndex'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Assigned'
+      description: If 'assigned' is true, returns only steps assigned to the current user.
+      responses:
+        '200':
+          description: List of campaign steps.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CampaignStep'
+                  page:
+                    $ref: '#/components/schemas/PageInfo'
+  /steps/{id}/activate:
+    post:
+      summary: Activate a campaign step by ID.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      responses:
+        '200':
+          description: Campaign step activated successfully.
   /query/users:
     get:
       summary: Query users.

@@ -5,7 +5,7 @@ import me.zort.iis.server.iisserver.app.access.AccessStrategy;
 import me.zort.iis.server.iisserver.app.campaign.CampaignFacade;
 import me.zort.iis.server.iisserver.app.user.UserProvider;
 import me.zort.iis.server.iisserver.cqrs.OperationHandler;
-import me.zort.iis.server.iisserver.cqrs.operation.campaigns.InspectCampaignOp;
+import me.zort.iis.server.iisserver.cqrs.operation.campaign.InspectCampaignOp;
 import me.zort.iis.server.iisserver.domain.access.exception.NoAccessException;
 import me.zort.iis.server.iisserver.domain.campaign.Campaign;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,7 @@ public class InspectCampaignHandler implements OperationHandler<InspectCampaignO
 
     @Override
     public InspectCampaignOp.Result handle(InspectCampaignOp operation) {
-        if (!accessStrategy.canInspectCampaign(operation.getCampaignId(), userProvider.getCurrentUser())) {
+        if (!accessStrategy.canManageCampaign(operation.getCampaignId(), userProvider.getCurrentUser())) {
             throw new NoAccessException("User does not have access to inspect campaign with id " + operation.getCampaignId());
         }
 

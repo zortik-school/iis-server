@@ -2,7 +2,7 @@ package me.zort.iis.server.iisserver.cqrs.filter;
 
 import me.zort.iis.server.iisserver.aop.access.RequirePrivilege;
 import me.zort.iis.server.iisserver.cqrs.Operation;
-import me.zort.iis.server.iisserver.cqrs.operation.campaigns.GetThemeCampaignsOp;
+import me.zort.iis.server.iisserver.cqrs.operation.campaign.GetThemeCampaignsOp;
 import me.zort.iis.server.iisserver.cqrs.operation.theme.*;
 import me.zort.iis.server.iisserver.domain.access.Privilege;
 import org.springframework.stereotype.Component;
