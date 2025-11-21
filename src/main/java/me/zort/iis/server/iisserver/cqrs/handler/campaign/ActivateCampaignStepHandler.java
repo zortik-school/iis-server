@@ -20,7 +20,7 @@ public class ActivateCampaignStepHandler extends CommandHandler<ActivateCampaign
     @Override
     public void execute(ActivateCampaignStepOp operation) {
         Step step = campaignStepFacade.getStep(operation.getStepId());
-        if (!accessStrategy.canManageCampaign(step.getCampaignId(), userProvider.getCurrentUser())) {
+        if (!accessStrategy.getCampaignAccessRole(step.getCampaignId(), userProvider.getCurrentUser()).canManageSteps()) {
             throw new NoAccessException("User has no access to activate steps on campaign " + step.getCampaignId());
         }
 

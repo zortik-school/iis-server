@@ -1,6 +1,9 @@
 package me.zort.iis.server.iisserver.domain.campaign;
 
 import me.zort.iis.server.iisserver.domain.campaign.exception.StepNotFoundException;
+import org.jetbrains.annotations.Nullable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +25,15 @@ public interface CampaignStepService {
      * @throws StepNotFoundException if the step with the given ID does not exist
      */
     void deleteStep(long stepId);
+
+    /**
+     * Assign a user to a step.
+     *
+     * @param stepId the ID of the step
+     * @param userId the ID of the user to be assigned, or null to unassign
+     * @throws StepNotFoundException if the step with the given ID does not exist
+     */
+    void assignUserToStep(long stepId, @Nullable Long userId);
 
     /**
      * Activate a step by its ID.
@@ -54,4 +66,21 @@ public interface CampaignStepService {
      * @return a list of CampaignStepService objects associated with the campaign
      */
     List<Step> getAllStepsForCampaign(long campaignId);
+
+    /**
+     * Retrieve all steps assigned to a specific user with pagination.
+     *
+     * @param userId the ID of the user
+     * @param pageable pagination information
+     * @return a page of Step objects assigned to the user
+     */
+    Page<Step> getAssignedSteps(long userId, Pageable pageable);
+
+    /**
+     * Retrieve all steps with pagination.
+     *
+     * @param pageable pagination information
+     * @return a page of Step objects
+     */
+    Page<Step> getAllSteps(Pageable pageable);
 }

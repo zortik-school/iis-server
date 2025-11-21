@@ -14,7 +14,11 @@ import java.util.List;
 public enum Role implements GrantedAuthority {
     USER(null, List.of()),
 
-    ADMIN(USER, List.of(Privilege.MANAGE_USERS, Privilege.MANAGE_THEMES, Privilege.MANAGE_CAMPAIGNS));
+    STEP_MANAGER(USER, List.of(Privilege.VIEW_ASSIGNED_STEPS)),
+
+    CAMPAIGN_MANAGER(STEP_MANAGER, List.of(Privilege.VIEW_ASSIGNED_CAMPAIGNS)),
+
+    ADMIN(CAMPAIGN_MANAGER, List.of(Privilege.MANAGE_USERS, Privilege.MANAGE_THEMES, Privilege.MANAGE_CAMPAIGNS, Privilege.MANAGE_STEPS));
 
     @Getter(onMethod_ = @Nullable)
     private final Role inheritsFrom;

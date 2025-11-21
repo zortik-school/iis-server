@@ -1,5 +1,6 @@
 package me.zort.iis.server.iisserver.app.access;
 
+import me.zort.iis.server.iisserver.domain.campaign.exception.StepNotFoundException;
 import me.zort.iis.server.iisserver.domain.user.User;
 
 public interface AccessStrategy {
@@ -14,20 +15,37 @@ public interface AccessStrategy {
     boolean canViewTheme(long themeId, User user);
 
     /**
-     * Checks if the current user can manage the campaign with the given ID.
+     * Checks if the user can view assigned campaigns.
      *
-     * @param campaignId the ID of the campaign to check access for
      * @param user the user whose access is being checked
-     * @return true if the user can manage the campaign, false otherwise
+     * @return true if the user can view assigned campaigns, false otherwise
      */
-    boolean canManageCampaign(long campaignId, User user);
+    boolean canViewAssignedCampaigns(User user);
 
     /**
-     * Checks if the current user can manage the campaign step with the given ID.
+     * Checks if the user can view assigned campaign steps.
      *
-     * @param campaignStepId the ID of the campaign step to check access for
      * @param user the user whose access is being checked
-     * @return true if the user can manage the campaign step, false otherwise
+     * @return true if the user can view assigned campaign steps, false otherwise
      */
-    boolean canManageCampaignStep(long campaignStepId, User user);
+    boolean canViewAssignedCampaignSteps(User user);
+
+    /**
+     * Gets the access role of the user for the specified campaign.
+     *
+     * @param campaignId the ID of the campaign
+     * @param user the user whose access role is being checked
+     * @return the CampaignAccessRole of the user for the campaign
+     */
+    CampaignAccessRole getCampaignAccessRole(long campaignId, User user);
+
+    /**
+     * Gets the access role of the user for the specified campaign step.
+     *
+     * @param campaignStepId the ID of the campaign step
+     * @param user the user whose access role is being checked
+     * @return the CampaignStepAccessRole of the user for the campaign step
+     * @throws StepNotFoundException if the campaign step does not exist
+     */
+    CampaignStepAccessRole getCampaignStepAccessRole(long campaignStepId, User user);
 }

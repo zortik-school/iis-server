@@ -21,7 +21,7 @@ public class GetActiveCampaignStepHandler implements OperationHandler<GetActiveC
 
     @Override
     public Optional<Step> handle(GetActiveCampaignStepOp operation) {
-        if (!accessStrategy.canManageCampaign(operation.getCampaignId(), userProvider.getCurrentUser())) {
+        if (!accessStrategy.getCampaignAccessRole(operation.getCampaignId(), userProvider.getCurrentUser()).canManageSteps()) {
             throw new NoAccessException("User does not have access to manage this campaign");
         }
 

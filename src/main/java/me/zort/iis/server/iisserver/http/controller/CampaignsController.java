@@ -17,32 +17,33 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/campaigns")
 @RequiredArgsConstructor
 public class CampaignsController {
     private final OperationExecutor operationExecutor;
 
-    @PostMapping("/campaigns")
+    @PostMapping
     public CreateCampaignResponse createCampaign(@RequestBody CreateCampaignRequest body) {
         Campaign campaign = operationExecutor.dispatch(new CreateCampaignOp(body.getName(), body.getThemeId()));
 
         return new CreateCampaignResponse(campaign);
     }
 
-    @DeleteMapping("/campaigns/{id}")
+    @DeleteMapping("/{id}")
     public BlankResponse deleteCampaign(@PathVariable long id) {
         operationExecutor.dispatch(new DeleteCampaignOp(id));
 
         return BlankResponse.getInstance();
     }
 
-    @GetMapping("/campaigns/{id}/inspect")
+    @GetMapping("/{id}/inspect")
     public InspectCampaignResponse inspectCampaign(@PathVariable long id) {
         InspectCampaignOp.Result result = operationExecutor.dispatch(new InspectCampaignOp(id));
 
         return new InspectCampaignResponse(result);
     }
 
-    @GetMapping("/campaigns/{id}/steps")
+    @GetMapping("/{id}/steps")
     public List<CampaignStepFullModel> getCampaignSteps(@PathVariable long id) {
         Optional<Step> activeStep = operationExecutor.dispatch(new GetActiveCampaignStepOp(id));
 
@@ -56,7 +57,7 @@ public class CampaignsController {
                 .toList();
     }
 
-    @PostMapping("/campaigns/{id}/assign")
+    @PostMapping("/{id}/assign")
     public BlankResponse assignUserToCampaign(
             @PathVariable long id, @Valid @RequestBody AssignUserToCampaignRequest body) {
         operationExecutor.dispatch(new AssignUserToCampaignOp(id, body.getUserId()));
@@ -64,7 +65,7 @@ public class CampaignsController {
         return BlankResponse.getInstance();
     }
 
-    @GetMapping("/campaigns")
+    @GetMapping
     public PageResponse<CampaignModel> getCampaigns(
             @RequestParam(value = "assigned", required = false) Boolean assigned,
             @RequestParam(value = "themeId", required = false) Long themeId,

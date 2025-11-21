@@ -7,9 +7,11 @@ import me.zort.iis.server.iisserver.domain.campaign.Step;
 public class CampaignStepModel {
     private final long id;
     private final String name;
+    private final long campaignId;
 
     public CampaignStepModel(Step step) {
         this.id = step.getId();
         this.name = step.getName();
+        this.campaignId = step.getCampaignId();
     }
 }

@@ -6,6 +6,9 @@ import me.zort.iis.server.iisserver.domain.campaign.CampaignStepService;
 import me.zort.iis.server.iisserver.domain.campaign.Step;
 import me.zort.iis.server.iisserver.domain.campaign.exception.CampaignNotFoundException;
 import me.zort.iis.server.iisserver.domain.campaign.exception.StepNotFoundException;
+import org.jetbrains.annotations.Nullable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +36,11 @@ public class CampaignStepFacadeImpl implements CampaignStepFacade {
         return campaignStepService.getStep(stepId).orElseThrow(() -> new StepNotFoundException(stepId));
     }
 
+    @Override
+    public void assignUserToStep(long stepId, @Nullable Long userId) {
+        campaignStepService.assignUserToStep(stepId, userId);
+    }
+
     @Transactional
     @Override
     public void activateStep(long stepId) {
@@ -51,5 +59,15 @@ public class CampaignStepFacadeImpl implements CampaignStepFacade {
     @Override
     public List<Step> getStepsForCampaign(long campaignId) {
         return campaignStepService.getAllStepsForCampaign(campaignId);
+    }
+
+    @Override
+    public Page<Step> getAssignedCampaignSteps(long userId, Pageable pageable) {
+        return campaignStepService.getAssignedSteps(userId, pageable);
+    }
+
+    @Override
+    public Page<Step> getAllCampaignSteps(Pageable pageable) {
+        return campaignStepService.getAllSteps(pageable);
     }
 }

@@ -1,5 +1,8 @@
 package me.zort.iis.server.iisserver.domain.campaign;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -51,6 +54,23 @@ public interface CampaignStepRepository {
      * @return a list of Steps associated with the campaign ID
      */
     Stream<Step> findAllByCampaignId(long campaignId);
+
+    /**
+     * Retrieves all Steps in a paginated format.
+     *
+     * @param pageable pagination information
+     * @return a Page containing the Steps
+     */
+    Page<Step> findAll(Pageable pageable);
+
+    /**
+     * Finds all Steps assigned to a specific user ID in a paginated format.
+     *
+     * @param userId the ID of the user
+     * @param pageable pagination information
+     * @return a Page containing the Steps assigned to the user
+     */
+    Page<Step> findAllByAssignedUserId(long userId, Pageable pageable);
 
     /**
      * Sets the active status to false for all Steps associated with a specific campaign ID.

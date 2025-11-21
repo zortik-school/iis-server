@@ -1,6 +1,8 @@
 package me.zort.iis.server.iisserver.data.jpa.repository;
 
 import me.zort.iis.server.iisserver.data.jpa.entity.StepEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +21,6 @@ public interface JpaCampaignStepRepository extends JpaRepository<StepEntity, Lon
     Optional<StepEntity> findByCampaign_IdAndActiveTrue(@NonNull Long id);
 
     List<StepEntity> findAllByCampaign_Id(long campaignId);
+
+    Page<StepEntity> findAllByAssignedUser_Id(Long assignedUserId, Pageable pageable);
 }

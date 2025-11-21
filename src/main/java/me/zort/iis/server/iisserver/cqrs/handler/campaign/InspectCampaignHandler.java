@@ -20,7 +20,7 @@ public class InspectCampaignHandler implements OperationHandler<InspectCampaignO
 
     @Override
     public InspectCampaignOp.Result handle(InspectCampaignOp operation) {
-        if (!accessStrategy.canManageCampaign(operation.getCampaignId(), userProvider.getCurrentUser())) {
+        if (!accessStrategy.getCampaignAccessRole(operation.getCampaignId(), userProvider.getCurrentUser()).canInspect()) {
             throw new NoAccessException("User does not have access to inspect campaign with id " + operation.getCampaignId());
         }
 

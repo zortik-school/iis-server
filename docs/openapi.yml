@@ -463,6 +463,46 @@ paths:
                       $ref: '#/components/schemas/CampaignStep'
                   page:
                     $ref: '#/components/schemas/PageInfo'
+  /steps/{id}/inspect:
+    get:
+      summary: Inspect campaign step by ID.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      responses:
+        '200':
+          description: Campaign step deep information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  campaign:
+                    $ref: '#/components/schemas/Campaign'
+                  assignedUserId:
+                    type: integer
+                    description: The ID of the user assigned to this step, if any.
+                  accessPrivileges:
+                    type: object
+                    description: A map of privileges indicating whether the current user has access. (ASSIGN_STAFF)
+                    additionalProperties:
+                      type: boolean
+  /steps/{id}/assign:
+    post:
+      summary: Assign a user to a campaign step.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+      responses:
+        '200':
+          description: Campaign step assigned successfully.
   /steps/{id}/activate:
     post:
       summary: Activate a campaign step by ID.

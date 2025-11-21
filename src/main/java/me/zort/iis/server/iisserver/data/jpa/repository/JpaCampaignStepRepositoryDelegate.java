@@ -6,6 +6,8 @@ import me.zort.iis.server.iisserver.data.jpa.JpaMapper;
 import me.zort.iis.server.iisserver.data.jpa.entity.StepEntity;
 import me.zort.iis.server.iisserver.domain.campaign.CampaignStepRepository;
 import me.zort.iis.server.iisserver.domain.campaign.Step;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -31,6 +33,11 @@ public class JpaCampaignStepRepositoryDelegate extends JpaCrudRepository<Step, S
     @Override
     public Stream<Step> findAllByCampaignId(long campaignId) {
         return repository.findAllByCampaign_Id(campaignId).stream().map(mapper::toDomain);
+    }
+
+    @Override
+    public Page<Step> findAllByAssignedUserId(long userId, Pageable pageable) {
+        return repository.findAllByAssignedUser_Id(userId, pageable).map(mapper::toDomain);
     }
 
     @Override
