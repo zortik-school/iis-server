@@ -43,6 +43,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void changePassword(long id, String newPasswordHash) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        user.setPasswordHash(newPasswordHash);
+
+        userRepository.save(user);
+
+        // TODO: event
+    }
+
+    @Override
     public Optional<User> getUser(long id) {
         return userRepository.findById(id);
     }

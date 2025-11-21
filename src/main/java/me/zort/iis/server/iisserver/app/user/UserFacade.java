@@ -28,6 +28,15 @@ public interface UserFacade {
     void deleteUser(long userId);
 
     /**
+     * Changes the password of a user.
+     *
+     * @param userId the ID of the user whose password is to be changed
+     * @param newPassword the new password to be set
+     * @throws UserNotFoundException If the user with the given ID does not exist
+     */
+    void changePassword(long userId, String newPassword);
+
+    /**
      * Retrieves a user by their ID.
      *
      * @param userId the ID of the user to retrieve

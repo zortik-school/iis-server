@@ -8,6 +8,7 @@ import me.zort.iis.server.iisserver.domain.access.Privilege;
 import me.zort.iis.server.iisserver.domain.user.User;
 import me.zort.iis.server.iisserver.http.model.BlankResponse;
 import me.zort.iis.server.iisserver.http.model.PageResponse;
+import me.zort.iis.server.iisserver.http.model.user.ChangePasswordRequest;
 import me.zort.iis.server.iisserver.http.model.user.ChangeUserRoleRequest;
 import me.zort.iis.server.iisserver.http.model.user.IdentityResponse;
 import me.zort.iis.server.iisserver.http.model.user.UserModel;
@@ -35,6 +36,13 @@ public class UsersController {
         List<Privilege> privileges = operationExecutor.dispatch(new GetPrivilegesForUserOp(user));
 
         return new IdentityResponse(user, privileges);
+    }
+
+    @PutMapping("/users/me/password")
+    public BlankResponse changePassword(@Valid @RequestBody ChangePasswordRequest body) {
+        operationExecutor.dispatch(new ChangePasswordOp(body.getOldPassword(), body.getNewPassword()));
+
+        return BlankResponse.getInstance();
     }
 
     @GetMapping("/users/{id}")

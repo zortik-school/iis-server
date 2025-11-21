@@ -1,5 +1,6 @@
 package me.zort.iis.server.iisserver.app.auth;
 
+import me.zort.iis.server.iisserver.domain.auth.exception.InvalidCredentialsException;
 import me.zort.iis.server.iisserver.domain.auth.exception.TokenInvalidException;
 import me.zort.iis.server.iisserver.domain.user.User;
 import me.zort.iis.server.iisserver.domain.user.exception.UserConflictException;
@@ -11,6 +12,7 @@ public interface AuthFacade {
      *
      * @param args the login arguments
      * @return the JWT pair
+     * @throws InvalidCredentialsException If the credentials are invalid
      */
     JwtPair login(LoginArgs args);
 

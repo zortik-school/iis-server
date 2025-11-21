@@ -1,6 +1,7 @@
 package me.zort.iis.server.iisserver.app.user;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.iis.server.iisserver.domain.auth.BasicCredentialsService;
 import me.zort.iis.server.iisserver.domain.user.Role;
 import me.zort.iis.server.iisserver.domain.user.User;
 import me.zort.iis.server.iisserver.domain.user.UserService;
@@ -9,12 +10,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class UserFacadeImpl implements UserFacade {
     private final UserService userService;
+    private final BasicCredentialsService credentialsService;
 
     @Override
     public void setUserRole(long userId, Role role) {
@@ -27,6 +27,11 @@ public class UserFacadeImpl implements UserFacade {
         getUser(userId);
 
         userService.deleteUser(userId);
+    }
+
+    @Override
+    public void changePassword(long userId, String newPassword) {
+        userService.changePassword(userId, credentialsService.hashPassword(newPassword));
     }
 
     @Override

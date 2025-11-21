@@ -189,6 +189,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+  /users/me/password:
+    put:
+      summary: Change password for current user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                oldPassword:
+                  type: string
+                newPassword:
+                  type: string
+      responses:
+        '200':
+          description: Password changed successfully.
   /users/{id}:
     get:
       summary: Get user by ID.

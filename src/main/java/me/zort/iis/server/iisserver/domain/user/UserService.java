@@ -26,6 +26,15 @@ public interface UserService {
     void deleteUser(long id);
 
     /**
+     * Changes the password of a user identified by the given ID.
+     *
+     * @param id the unique ID of the user whose password is to be changed
+     * @param newPasswordHash the new password hash to set
+     * @throws UserNotFoundException If no user with the given ID exists
+     */
+    void changePassword(long id, String newPasswordHash);
+
+    /**
      * Retrieves a user by their unique ID.
      *
      * @param id the unique ID of the user to retrieve
