@@ -14,11 +14,18 @@ import java.util.List;
 public enum Role implements GrantedAuthority {
     USER(null, List.of()),
 
-    STEP_MANAGER(USER, List.of(Privilege.VIEW_ASSIGNED_STEPS)),
+    ACTIVITY_EXECUTOR(USER, List.of(
+            Privilege.VIEW_ASSIGNED_ACTIVITIES, Privilege.VIEW_AVAILABLE_ACTIVITIES)),
 
-    CAMPAIGN_MANAGER(STEP_MANAGER, List.of(Privilege.VIEW_ASSIGNED_CAMPAIGNS)),
+    STEP_MANAGER(ACTIVITY_EXECUTOR, List.of(
+            Privilege.VIEW_ASSIGNED_STEPS)),
 
-    ADMIN(CAMPAIGN_MANAGER, List.of(Privilege.MANAGE_USERS, Privilege.MANAGE_THEMES, Privilege.MANAGE_CAMPAIGNS, Privilege.MANAGE_STEPS));
+    CAMPAIGN_MANAGER(STEP_MANAGER, List.of(
+            Privilege.VIEW_ASSIGNED_CAMPAIGNS)),
+
+    ADMIN(CAMPAIGN_MANAGER, List.of(
+            Privilege.MANAGE_USERS,
+            Privilege.MANAGE_THEMES, Privilege.MANAGE_CAMPAIGNS, Privilege.MANAGE_STEPS, Privilege.MANAGE_ACTIVITIES));
 
     @Getter(onMethod_ = @Nullable)
     private final Role inheritsFrom;

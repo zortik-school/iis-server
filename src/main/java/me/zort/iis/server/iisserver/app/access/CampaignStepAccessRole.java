@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum CampaignStepAccessRole {
-    ADMIN(true, true),
-    EDITOR(true, false),
-    NONE(false, false);
+    ADMIN(true, true, true),
+    EDITOR(true, false, true),
+    NONE(false, false, false);
 
     private final boolean canInspect;
     private final boolean assignStaff;
+    private final boolean manageActivities;
 
     public boolean canInspect() {
         return canInspect;
@@ -17,5 +18,9 @@ public enum CampaignStepAccessRole {
 
     public boolean canAssignStaff() {
         return assignStaff;
+    }
+
+    public boolean canManageActivities() {
+        return manageActivities;
     }
 }

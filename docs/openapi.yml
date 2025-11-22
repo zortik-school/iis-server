@@ -12,6 +12,12 @@ components:
       enum:
         - ADMIN
         - USER
+    ActivityState:
+      type: string
+      enum:
+        - OPEN
+        - IN_PROGRESS
+        - CLOSED
     Privilege:
       type: string
       enum:
@@ -61,6 +67,23 @@ components:
           type: string
         active:
           type: boolean
+    Activity:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        description:
+          type: string
+        stepId:
+          type: integer
+        startDate:
+          type: number
+        endDate:
+          type: number
+        state:
+          $ref: '#/components/schemas/ActivityState'
     PageInfo:
       type: object
       properties:
@@ -95,7 +118,14 @@ components:
       required: false
       schema:
         type: boolean
-        description: Filter themes that are assigned to the current user.
+        description: Filter only those that are assigned to the current user.
+    Available:
+      name: available
+      in: query
+      required: false
+      schema:
+        type: boolean
+        description: Filter only those that are available to the current user.
   responses:
     JwtResponse:
       description: Used to return JWT token.
@@ -164,6 +194,12 @@ paths:
       parameters:
         - $ref: '#/components/parameters/PageIndex'
         - $ref: '#/components/parameters/PageSize'
+        - name: activityId
+          in: query
+          required: false
+          schema:
+            type: integer
+            description: Filter users assigned to the specified activity.
       responses:
         '200':
           description: List of users.
@@ -528,6 +564,111 @@ paths:
       responses:
         '200':
           description: Campaign step activated successfully.
+  /activities:
+    post:
+      summary: Create an activity.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                stepId:
+                  type: integer
+                startDate:
+                  type: number
+                endDate:
+                  type: number
+      responses:
+        '200':
+          description: Activity created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activity'
+    get:
+      summary: Get activities by some criteria.
+      parameters:
+        - $ref: '#/components/parameters/PageIndex'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Assigned'
+        - $ref: '#/components/parameters/Available'
+      description: If 'assigned' is true, returns only activities assigned to the current user.
+      responses:
+        '200':
+          description: List of activities.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Activity'
+                  page:
+                    $ref: '#/components/schemas/PageInfo'
+  /activities/{id}/close:
+    post:
+      summary: Close an activity by ID.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                note:
+                  type: object
+                  description: Additional note for closing the activity.
+                  required: false
+                  properties:
+                    content:
+                      type: string
+      responses:
+        '200':
+          description: Activity closed successfully.
+  /activities/{id}/adduser:
+    post:
+      summary: Add a user to an activity.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+      responses:
+        '200':
+          description: User added to activity successfully.
+  /activities/{id}/removeuser:
+    post:
+      summary: Remove a user from an activity.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+      responses:
+        '200':
+          description: User removed from activity successfully.
   /query/users:
     get:
       summary: Query users.

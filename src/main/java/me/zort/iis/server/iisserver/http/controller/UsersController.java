@@ -25,8 +25,15 @@ public class UsersController {
     private final OperationExecutor operationExecutor;
 
     @GetMapping("/users")
-    public PageResponse<UserModel> getUsers(Pageable pageable) {
-        Page<User> page = operationExecutor.dispatch(new GetUsersOp(pageable));
+    public PageResponse<UserModel> getUsers(
+            @RequestParam(value = "activityId", required = false) Long activityId,
+            Pageable pageable) {
+        Page<User> page;
+        if (activityId != null) {
+            page = operationExecutor.dispatch(new GetUsersForActivityOp(activityId, pageable));
+        } else {
+            page = operationExecutor.dispatch(new GetUsersOp(pageable));
+        }
 
         return PageResponse.fromPage(page, UserModel::new);
     }

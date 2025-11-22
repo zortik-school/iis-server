@@ -1,5 +1,6 @@
 package me.zort.iis.server.iisserver.app.access;
 
+import me.zort.iis.server.iisserver.domain.campaign.exception.ActivityNotFoundException;
 import me.zort.iis.server.iisserver.domain.campaign.exception.StepNotFoundException;
 import me.zort.iis.server.iisserver.domain.user.User;
 
@@ -15,7 +16,7 @@ public interface AccessStrategy {
     boolean canViewTheme(long themeId, User user);
 
     /**
-     * Checks if the user can view assigned campaigns.
+     * Checks if the user can view assigned campaigns for him.
      *
      * @param user the user whose access is being checked
      * @return true if the user can view assigned campaigns, false otherwise
@@ -23,7 +24,7 @@ public interface AccessStrategy {
     boolean canViewAssignedCampaigns(User user);
 
     /**
-     * Checks if the user can view assigned campaign steps.
+     * Checks if the user can view assigned campaign steps for him.
      *
      * @param user the user whose access is being checked
      * @return true if the user can view assigned campaign steps, false otherwise
@@ -48,4 +49,14 @@ public interface AccessStrategy {
      * @throws StepNotFoundException if the campaign step does not exist
      */
     CampaignStepAccessRole getCampaignStepAccessRole(long campaignStepId, User user);
+
+    /**
+     * Gets the access role of the user for the specified activity.
+     *
+     * @param activityId the ID of the activity
+     * @param user the user whose access role is being checked
+     * @return the ActivityAccessRole of the user for the activity
+     * @throws ActivityNotFoundException if the activity does not exist
+     */
+    ActivityAccessRole getActivityAccessRole(long activityId, User user);
 }
