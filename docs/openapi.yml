@@ -653,6 +653,14 @@ paths:
                       $ref: '#/components/schemas/Activity'
                   page:
                     $ref: '#/components/schemas/PageInfo'
+  /activities/{id}:
+    delete:
+      summary: Delete an activity by ID.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      responses:
+        '200':
+          description: Activity deleted successfully.
   /activities/{id}/close:
     post:
       summary: Close an activity by ID.

@@ -44,6 +44,13 @@ public class ActivitiesController {
         return new ActivityModel(activity);
     }
 
+    @DeleteMapping("/{id}")
+    public BlankResponse deleteActivity(@PathVariable long id) {
+        operationExecutor.dispatch(new DeleteActivityOp(id));
+
+        return BlankResponse.getInstance();
+    }
+
     @PostMapping("/{id}/adduser")
     public BlankResponse addUserToActivity(@PathVariable long id, @Valid @RequestBody AddUserToActivityRequest body) {
         operationExecutor.dispatch(new AddUserToActivityOp(id, body.getUserId()));

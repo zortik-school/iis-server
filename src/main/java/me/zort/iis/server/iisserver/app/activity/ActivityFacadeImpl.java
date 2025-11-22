@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.zort.iis.server.iisserver.app.access.PrivilegesResolver;
 import me.zort.iis.server.iisserver.domain.access.Privilege;
 import me.zort.iis.server.iisserver.domain.campaign.*;
+import me.zort.iis.server.iisserver.domain.campaign.exception.ActivityNotFoundException;
 import me.zort.iis.server.iisserver.domain.user.User;
 import me.zort.iis.server.iisserver.domain.user.UserService;
 import me.zort.iis.server.iisserver.domain.user.exception.UserNotFoundException;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +33,11 @@ public class ActivityFacadeImpl implements ActivityFacade {
     @Override
     public void deleteActivity(long activityId) {
         activityService.deleteActivity(activityId);
+    }
+
+    @Override
+    public Activity getActivity(long activityId) {
+        return activityService.getActivity(activityId).orElseThrow(() -> new ActivityNotFoundException(activityId));
     }
 
     @Override

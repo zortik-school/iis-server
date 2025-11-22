@@ -1,7 +1,5 @@
 package me.zort.iis.server.iisserver.domain.campaign;
 
-import java.util.Date;
-
 public interface Activity {
 
     /**

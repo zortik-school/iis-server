@@ -10,6 +10,8 @@ import me.zort.iis.server.iisserver.domain.user.exception.UserNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
+
 public interface ActivityFacade {
 
     /**
@@ -27,6 +29,15 @@ public interface ActivityFacade {
      * @throws ActivityNotFoundException if the activity does not exist
      */
     void deleteActivity(long activityId);
+
+    /**
+     * Retrieves an activity by its ID.
+     *
+     * @param activityId the ID of the activity to be retrieved
+     * @return the activity with the specified ID
+     * @throws ActivityNotFoundException if the activity does not exist
+     */
+    Activity getActivity(long activityId);
 
     /**
      * Opens an activity by its ID.
