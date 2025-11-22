@@ -1,5 +1,6 @@
-package me.zort.iis.server.iisserver.domain.user;
+package me.zort.iis.server.iisserver.domain.user.impl;
 
+import me.zort.iis.server.iisserver.domain.user.User;
 import me.zort.iis.server.iisserver.domain.user.exception.UserConflictException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

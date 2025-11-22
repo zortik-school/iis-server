@@ -5,12 +5,9 @@ import me.zort.iis.server.iisserver.data.IdAdjustmentStrategy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 /**
  * Generic CRUD repository for JPA entities.
@@ -23,7 +20,7 @@ import java.util.stream.StreamSupport;
 public class JpaCrudRepository<T, E extends JpaEntity<ID>, ID> {
     private final JpaRepository<E, ID> repository;
     private final JpaMapper<T, E> mapper;
-    private final IdAdjustmentStrategy idAdjustmentStrategy;
+    private final IdAdjustmentStrategy<ID> idAdjustmentStrategy;
 
     /**
      * Saves the given domain model.
@@ -31,17 +28,13 @@ public class JpaCrudRepository<T, E extends JpaEntity<ID>, ID> {
      * @param domainModel the domain model to save
      * @return the saved domain model
      */
-    @SuppressWarnings("unchecked") // Type safe
     public T save(T domainModel) {
         E entity = mapper.toEntity(domainModel);
 
-        if (entity.getId() instanceof Long id) {
-            Long adjustedId = idAdjustmentStrategy.adjustIdBeforeInsert(id);
+        ID id = entity.getId();
+        id = idAdjustmentStrategy.adjustIdBeforeInsert(id);
 
-            if (!Objects.equals(adjustedId, id)) {
-                ((JpaEntity<Long>) entity).setId(adjustedId);
-            }
-        }
+        entity.setId(id);
 
         entity = repository.save(entity);
 

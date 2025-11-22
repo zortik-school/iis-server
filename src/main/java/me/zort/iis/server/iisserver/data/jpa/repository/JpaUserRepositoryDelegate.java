@@ -5,7 +5,7 @@ import me.zort.iis.server.iisserver.data.jpa.JpaCrudRepository;
 import me.zort.iis.server.iisserver.data.jpa.JpaMapper;
 import me.zort.iis.server.iisserver.data.jpa.entity.UserEntity;
 import me.zort.iis.server.iisserver.domain.user.User;
-import me.zort.iis.server.iisserver.domain.user.UserRepository;
+import me.zort.iis.server.iisserver.domain.user.impl.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -19,7 +19,7 @@ public class JpaUserRepositoryDelegate extends JpaCrudRepository<User, UserEntit
 
     public JpaUserRepositoryDelegate(
             JpaUserRepository repository,
-            JpaMapper<User, UserEntity> mapper, IdAdjustmentStrategy idAdjustmentStrategy) {
+            JpaMapper<User, UserEntity> mapper, IdAdjustmentStrategy<Long> idAdjustmentStrategy) {
         super(repository, mapper, idAdjustmentStrategy);
         this.repository = repository;
         this.mapper = mapper;

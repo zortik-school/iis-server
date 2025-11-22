@@ -4,6 +4,7 @@ public enum Role {
     ADMIN,
     CAMPAIGN_MANAGER,
     STEP_MANAGER,
+    ACTIVITY_EXECUTOR,
     USER
 
 }

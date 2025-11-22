@@ -1,8 +1,9 @@
-package me.zort.iis.server.iisserver.domain.campaign;
+package me.zort.iis.server.iisserver.domain.campaign.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Setter;
+import me.zort.iis.server.iisserver.domain.campaign.Step;
 
 @Data
 @AllArgsConstructor

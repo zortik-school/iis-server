@@ -1,6 +1,9 @@
-package me.zort.iis.server.iisserver.domain.campaign;
+package me.zort.iis.server.iisserver.domain.campaign.impl;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.iis.server.iisserver.domain.campaign.Campaign;
+import me.zort.iis.server.iisserver.domain.campaign.CampaignService;
+import me.zort.iis.server.iisserver.domain.campaign.CreateCampaignArgs;
 import me.zort.iis.server.iisserver.domain.campaign.event.CampaignCreatedEvent;
 import me.zort.iis.server.iisserver.domain.campaign.event.CampaignDeletedEvent;
 import me.zort.iis.server.iisserver.domain.campaign.event.CampaignUserAssignedEvent;

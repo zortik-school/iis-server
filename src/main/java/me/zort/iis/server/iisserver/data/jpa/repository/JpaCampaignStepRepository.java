@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.lang.NonNull;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,4 +24,6 @@ public interface JpaCampaignStepRepository extends JpaRepository<StepEntity, Lon
     List<StepEntity> findAllByCampaign_Id(long campaignId);
 
     Page<StepEntity> findAllByAssignedUser_Id(Long assignedUserId, Pageable pageable);
+
+    List<StepEntity> findAllByCampaign_IdIn(Collection<Long> campaignIds);
 }

@@ -40,9 +40,9 @@ public class UserEntity implements JpaEntity<Long> {
     @ToString.Exclude
     private List<StepEntity> assignedSteps;
 
-    @OneToMany(mappedBy = "assignedUser")
+    @OneToMany(mappedBy = "user")
     @ToString.Exclude
-    private List<ActivityEntity> assignedActivities;
+    private List<ActivityMembershipEntity> activityMemberships;
 
     @Override
     public final boolean equals(Object o) {

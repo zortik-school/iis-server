@@ -65,6 +65,22 @@ public class CampaignsController {
         return BlankResponse.getInstance();
     }
 
+    @PostMapping("/{id}/adduser")
+    public BlankResponse addUserToCampaign(
+            @PathVariable long id, @Valid @RequestBody AddUserToCampaignRequest body) {
+        operationExecutor.dispatch(new AddUserToCampaignOp(id, body.getUserId()));
+
+        return BlankResponse.getInstance();
+    }
+
+    @PostMapping("/{id}/removeuser")
+    public BlankResponse removeUserFromCampaign(
+            @PathVariable long id, @Valid @RequestBody RemoveUserFromCampaignRequest body) {
+        operationExecutor.dispatch(new RemoveUserFromCampaignOp(id, body.getUserId()));
+
+        return BlankResponse.getInstance();
+    }
+
     @GetMapping
     public PageResponse<CampaignModel> getCampaigns(
             @RequestParam(value = "assigned", required = false) Boolean assigned,

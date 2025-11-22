@@ -37,14 +37,21 @@ public interface Activity {
      *
      * @return start date
      */
-    Date getStartDate();
+    long getStartDate();
 
     /**
      * The end date of the activity.
      *
      * @return end date
      */
-    Date getEndDate();
+    long getEndDate();
+
+    /**
+     * Sets the current state of the activity.
+     *
+     * @param state activity state
+     */
+    void setState(ActivityState state);
 
     /**
      * The current state of the activity.

@@ -3,6 +3,7 @@ package me.zort.iis.server.iisserver.domain.campaign;
 import me.zort.iis.server.iisserver.domain.campaign.exception.UserAlreadyInActivityException;
 import me.zort.iis.server.iisserver.domain.campaign.exception.UserNotInActivityException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ActivityMembershipService {
 
@@ -38,15 +39,17 @@ public interface ActivityMembershipService {
      * Retrieves all activity memberships for a specific user.
      *
      * @param userId The ID of the user.
+     * @param pageable Pagination information.
      * @return A list of ActivityMembership objects for the user.
      */
-    Page<ActivityMembership> getMembershipsForUser(long userId);
+    Page<ActivityMembership> getMembershipsForUser(long userId, Pageable pageable);
 
     /**
      * Retrieves all activity memberships for a specific activity.
      *
      * @param activityId The ID of the activity.
+     * @param pageable Pagination information.
      * @return A page of ActivityMembership objects for the activity.
      */
-    Page<ActivityMembership> getMembershipsForActivity(long activityId);
+    Page<ActivityMembership> getMembershipsForActivity(long activityId, Pageable pageable);
 }

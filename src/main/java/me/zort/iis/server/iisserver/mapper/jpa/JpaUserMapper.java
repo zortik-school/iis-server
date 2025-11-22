@@ -5,7 +5,7 @@ import me.zort.iis.server.iisserver.data.jpa.JpaMapper;
 import me.zort.iis.server.iisserver.data.jpa.entity.UserEntity;
 import me.zort.iis.server.iisserver.domain.user.Role;
 import me.zort.iis.server.iisserver.domain.user.User;
-import me.zort.iis.server.iisserver.domain.user.UserImpl;
+import me.zort.iis.server.iisserver.domain.user.impl.UserImpl;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

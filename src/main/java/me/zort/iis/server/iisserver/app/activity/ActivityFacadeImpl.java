@@ -10,6 +10,7 @@ import me.zort.iis.server.iisserver.domain.user.exception.UserNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -52,6 +53,7 @@ public class ActivityFacadeImpl implements ActivityFacade {
         activityMembershipService.addMemberToActivity(activityId, userId);
     }
 
+    @Transactional
     @Override
     public void removeUserFromActivity(long activityId, long userId) {
         activityMembershipService.removeMemberFromActivity(activityId, userId);
@@ -82,14 +84,14 @@ public class ActivityFacadeImpl implements ActivityFacade {
     @Override
     public Page<Activity> getAssignedActivities(long userId, Pageable pageable) {
         return activityMembershipService
-                .getMembershipsForUser(userId)
+                .getMembershipsForUser(userId, pageable)
                 .map(membership -> activityService.getActivity(membership.getActivityId()).get()); // TODO: more secure get
     }
 
     @Override
     public Page<User> getMembersOfActivity(long activityId, Pageable pageable) {
         return activityMembershipService
-                .getMembershipsForActivity(activityId)
+                .getMembershipsForActivity(activityId, pageable)
                 .map(membership -> userService.getUser(membership.getUserId()).get()); // TODO: more secure get
     }
 

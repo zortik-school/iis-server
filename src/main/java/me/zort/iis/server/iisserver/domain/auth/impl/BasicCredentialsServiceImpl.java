@@ -1,6 +1,7 @@
-package me.zort.iis.server.iisserver.domain.auth;
+package me.zort.iis.server.iisserver.domain.auth.impl;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.iis.server.iisserver.domain.auth.BasicCredentialsService;
 import me.zort.iis.server.iisserver.domain.auth.exception.InvalidCredentialsException;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.security.crypto.password.PasswordEncoder;

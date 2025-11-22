@@ -1,4 +1,4 @@
-package me.zort.iis.server.iisserver.domain.auth;
+package me.zort.iis.server.iisserver.domain.auth.impl;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import me.zort.iis.server.iisserver.config.AppConfig;
+import me.zort.iis.server.iisserver.domain.auth.JwtService;
 import me.zort.iis.server.iisserver.domain.auth.exception.TokenInvalidException;
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,6 @@
-package me.zort.iis.server.iisserver.domain.campaign;
+package me.zort.iis.server.iisserver.domain.campaign.impl;
 
+import me.zort.iis.server.iisserver.domain.campaign.Campaign;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

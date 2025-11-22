@@ -7,7 +7,7 @@ import me.zort.iis.server.iisserver.data.jpa.entity.CampaignEntity;
 import me.zort.iis.server.iisserver.data.jpa.entity.StepEntity;
 import me.zort.iis.server.iisserver.data.jpa.entity.UserEntity;
 import me.zort.iis.server.iisserver.domain.campaign.Step;
-import me.zort.iis.server.iisserver.domain.campaign.StepImpl;
+import me.zort.iis.server.iisserver.domain.campaign.impl.StepImpl;
 import org.springframework.stereotype.Component;
 
 @Component

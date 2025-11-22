@@ -200,6 +200,12 @@ paths:
           schema:
             type: integer
             description: Filter users assigned to the specified activity.
+        - name: campaignId
+          in: query
+          required: false
+          schema:
+            type: integer
+            description: Filter users added to the specified campaign (members of the campaign).
       responses:
         '200':
           description: List of users.
@@ -474,6 +480,40 @@ paths:
       responses:
         '200':
           description: Campaign assigned successfully.
+  /campaigns/{id}/adduser:
+    post:
+      summary: Add a user to a campaign.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+      responses:
+        '200':
+          description: User added to campaign successfully.
+  /campaigns/{id}/removeuser:
+    post:
+      summary: Remove a user from a campaign.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+      responses:
+        '200':
+          description: User removed from campaign successfully.
   /steps:
     post:
       summary: Create a campaign step.

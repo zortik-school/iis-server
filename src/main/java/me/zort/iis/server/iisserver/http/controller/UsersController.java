@@ -27,10 +27,13 @@ public class UsersController {
     @GetMapping("/users")
     public PageResponse<UserModel> getUsers(
             @RequestParam(value = "activityId", required = false) Long activityId,
+            @RequestParam(value = "campaignId", required = false) Long campaignId,
             Pageable pageable) {
         Page<User> page;
         if (activityId != null) {
             page = operationExecutor.dispatch(new GetUsersForActivityOp(activityId, pageable));
+        } else if (campaignId != null) {
+            page = operationExecutor.dispatch(new GetUsersForCampaignOp(campaignId, pageable));
         } else {
             page = operationExecutor.dispatch(new GetUsersOp(pageable));
         }

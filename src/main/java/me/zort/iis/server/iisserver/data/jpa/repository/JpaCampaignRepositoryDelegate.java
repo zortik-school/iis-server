@@ -5,7 +5,7 @@ import me.zort.iis.server.iisserver.data.jpa.JpaCrudRepository;
 import me.zort.iis.server.iisserver.data.jpa.JpaMapper;
 import me.zort.iis.server.iisserver.data.jpa.entity.CampaignEntity;
 import me.zort.iis.server.iisserver.domain.campaign.Campaign;
-import me.zort.iis.server.iisserver.domain.campaign.CampaignRepository;
+import me.zort.iis.server.iisserver.domain.campaign.impl.CampaignRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -17,7 +17,7 @@ public class JpaCampaignRepositoryDelegate extends JpaCrudRepository<Campaign, C
 
     public JpaCampaignRepositoryDelegate(
             JpaCampaignRepository repository,
-            JpaMapper<Campaign, CampaignEntity> mapper, IdAdjustmentStrategy idAdjustmentStrategy) {
+            JpaMapper<Campaign, CampaignEntity> mapper, IdAdjustmentStrategy<Long> idAdjustmentStrategy) {
         super(repository, mapper, idAdjustmentStrategy);
         this.repository = repository;
         this.mapper = mapper;
