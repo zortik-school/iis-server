@@ -3,6 +3,7 @@ package me.zort.iis.server.iisserver.domain.campaign.impl;
 import lombok.RequiredArgsConstructor;
 import me.zort.iis.server.iisserver.domain.campaign.ActivityMembership;
 import me.zort.iis.server.iisserver.domain.campaign.ActivityMembershipService;
+import me.zort.iis.server.iisserver.domain.campaign.ActivityState;
 import me.zort.iis.server.iisserver.domain.campaign.exception.UserAlreadyInActivityException;
 import me.zort.iis.server.iisserver.domain.campaign.exception.UserNotInActivityException;
 import org.springframework.data.domain.Page;
@@ -48,6 +49,11 @@ public class ActivityMembershipServiceImpl implements ActivityMembershipService 
     @Override
     public Page<ActivityMembership> getMembershipsForUser(long userId, Pageable pageable) {
         return repository.findAllByUserId(userId, pageable);
+    }
+
+    @Override
+    public Page<ActivityMembership> getActiveMembershipsForUser(long userId, Pageable pageable) {
+        return repository.findAllByUserIdAndActivityStateAndStepActive(userId, ActivityState.OPEN, true, pageable);
     }
 
     @Override

@@ -6,6 +6,7 @@ import me.zort.iis.server.iisserver.data.jpa.JpaMapper;
 import me.zort.iis.server.iisserver.data.jpa.entity.ActivityMembershipEntity;
 import me.zort.iis.server.iisserver.data.jpa.entity.ActivityMembershipId;
 import me.zort.iis.server.iisserver.domain.campaign.ActivityMembership;
+import me.zort.iis.server.iisserver.domain.campaign.ActivityState;
 import me.zort.iis.server.iisserver.domain.campaign.impl.ActivityMembershipRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,5 +45,14 @@ public class JpaActivityMembershipRepositoryDelegate
     @Override
     public Page<ActivityMembership> findAllByUserId(long userId, Pageable pageable) {
         return repository.findAllByUser_Id(userId, pageable).map(mapper::toDomain);
+    }
+
+    @Override
+    public Page<ActivityMembership> findAllByUserIdAndActivityStateAndStepActive(
+            long userId, ActivityState state, boolean stepActive, Pageable pageable) {
+
+        return repository
+                .findAllByUserIdAndActivityStateAndStepActive(userId, state, stepActive, pageable)
+                .map(mapper::toDomain);
     }
 }

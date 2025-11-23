@@ -43,29 +43,18 @@ public interface ActivityRepository {
     Page<Activity> findAllByStepId(Long stepId, Pageable pageable);
 
     /**
-     * Finds all activities by state and within a specific date range, with pagination.
-     *
-     * @param state the state of the activities to be found
-     * @param startDate the lower bound of the start date
-     * @param endDate the upper bound of the end date
-     * @param pageable pagination information
-     * @return a paginated list of activities matching the criteria
-     */
-    Page<Activity> findAllByStateAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-            ActivityState state, long startDate, long endDate, Pageable pageable);
-
-    /**
      * Finds all activities associated with a list of step IDs, filtered by state and date range, with pagination.
      *
      * @param stepIds  the list of step IDs
      * @param state    the state of the activities to be found
      * @param startDate the lower bound of the start date
      * @param endDate the upper bound of the end date
+     * @param userId the user ID to exclude from membership
      * @param pageable pagination information
      * @return a paginated list of activities matching the criteria
      */
-    Page<Activity> findAllByStepIdInAndStateAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-            List<Long> stepIds, ActivityState state, long startDate, long endDate, Pageable pageable);
+    Page<Activity> findAllByStepIdInAndStateAndStartDateLessThanEqualAndEndDateGreaterThanEqualAndUserNotInMembership(
+            List<Long> stepIds, ActivityState state, long startDate, long endDate, long userId, Pageable pageable);
 
     /**
      * Finds all activities with pagination.

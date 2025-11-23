@@ -27,7 +27,7 @@ public class CloseActivityHandler extends CommandHandler<CloseActivityOp> {
         boolean rejected = false;
 
         ActivityNoteInput note = operation.getNote();
-        if (note == null && !accessRole.canCloseForcibly()) {
+        if (note == null && !accessRole.canChangeState()) {
             // No note provided and user cannot close forcibly
             rejected = true;
         } else if (note != null && !accessRole.canCloseWithNote()) {

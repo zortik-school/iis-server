@@ -32,18 +32,10 @@ public class JpaActivityRepositoryDelegate extends JpaCrudRepository<Activity, A
     }
 
     @Override
-    public Page<Activity> findAllByStateAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-            ActivityState state, long startDate, long endDate, Pageable pageable) {
+    public Page<Activity> findAllByStepIdInAndStateAndStartDateLessThanEqualAndEndDateGreaterThanEqualAndUserNotInMembership(
+            List<Long> stepIds, ActivityState state, long startDate, long endDate, long userId, Pageable pageable) {
         return repository
-                .findAllByStateAndStartDateLessThanEqualAndEndDateGreaterThanEqual(state, startDate, endDate, pageable)
-                .map(mapper::toDomain);
-    }
-
-    @Override
-    public Page<Activity> findAllByStepIdInAndStateAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-            List<Long> stepIds, ActivityState state, long startDate, long endDate, Pageable pageable) {
-        return repository
-                .findAllByStep_IdInAndStateAndStartDateLessThanEqualAndEndDateGreaterThanEqual(stepIds, state, startDate, endDate, pageable)
+                .findAllAvailableForUserInSteps(stepIds, state, startDate, endDate, userId, pageable)
                 .map(mapper::toDomain);
     }
 }

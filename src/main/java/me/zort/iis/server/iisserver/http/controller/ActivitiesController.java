@@ -44,11 +44,25 @@ public class ActivitiesController {
         return new ActivityModel(activity);
     }
 
+    @GetMapping("/{id}")
+    public ActivityModel getActivity(@PathVariable long id) {
+        Activity activity = operationExecutor.dispatch(new GetActivityOp(id));
+
+        return new ActivityModel(activity);
+    }
+
     @DeleteMapping("/{id}")
     public BlankResponse deleteActivity(@PathVariable long id) {
         operationExecutor.dispatch(new DeleteActivityOp(id));
 
         return BlankResponse.getInstance();
+    }
+
+    @GetMapping("/{id}/inspect")
+    public InspectActivityResponse inspectActivity(@PathVariable long id) {
+        InspectActivityOp.Result result = operationExecutor.dispatch(new InspectActivityOp(id));
+
+        return new InspectActivityResponse(result);
     }
 
     @PostMapping("/{id}/adduser")
@@ -62,6 +76,13 @@ public class ActivitiesController {
     public BlankResponse removeUserFromActivity(
             @PathVariable long id, @Valid @RequestBody RemoveUserFromActivityRequest body) {
         operationExecutor.dispatch(new RemoveUserFromActivityOp(id, body.getUserId()));
+
+        return BlankResponse.getInstance();
+    }
+
+    @PostMapping("/{id}/open")
+    public BlankResponse openActivity(@PathVariable long id) {
+        operationExecutor.dispatch(new OpenActivityOp(id));
 
         return BlankResponse.getInstance();
     }

@@ -54,23 +54,15 @@ public interface ActivityService {
     Page<Activity> getActivitiesForStep(long stepId, Pageable pageable);
 
     /**
-     * Retrieves a paginated list of activities available across all campaigns.
-     * By available, it is meant that the activities are open for participation.
-     *
-     * @param pageable Pagination information.
-     * @return A paginated list of activities available.
-     */
-    Page<Activity> getAvailableActivities(Pageable pageable);
-
-    /**
      * Retrieves a paginated list of activities available.
      * By available, it is meant that the activities are open for participation.
      *
+     * @param userId The ID of the user for whom to retrieve available activities.
      * @param campaignIds List of campaign IDs to filter activities.
      * @param pageable    Pagination information.
      * @return A paginated list of activities available for the given campaign IDs.
      */
-    Page<Activity> getAvailableActivitiesForCampaigns(List<Long> campaignIds, Pageable pageable);
+    Page<Activity> getAvailableActivitiesForCampaigns(long userId, List<Long> campaignIds, Pageable pageable);
 
     /**
      * Checks if a specific activity belongs to a given campaign.

@@ -6,10 +6,8 @@ import me.zort.iis.server.iisserver.domain.campaign.*;
 import me.zort.iis.server.iisserver.domain.campaign.exception.ActivityNotFoundException;
 import me.zort.iis.server.iisserver.domain.campaign.exception.StepNotFoundException;
 import me.zort.iis.server.iisserver.domain.user.User;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,7 +15,6 @@ import java.util.Optional;
 public class AccessStrategyImpl implements AccessStrategy {
     private final PrivilegesResolver privilegesResolver;
     private final CampaignService campaignService;
-    private final CampaignMembershipService campaignMembershipService;
     private final CampaignStepService campaignStepService;
     private final ActivityService activityService;
     private final ActivityMembershipService activityMembershipService;
@@ -105,16 +102,6 @@ public class AccessStrategyImpl implements AccessStrategy {
         if (activityMembershipService.isMemberOfActivity(activityId, user.getId())) {
             // User is assigned to this activity
             return ActivityAccessRole.EXECUTOR;
-        }
-
-        List<Long> campaignIdsOfUser = campaignService.getAssignedCampaigns(user.getId(), Pageable.unpaged())
-                .map(Campaign::getId)
-                .toList();
-        if (campaignIdsOfUser
-                .stream()
-                .anyMatch(campaignId -> activityService.isActivityOfCampaign(activityId, campaignId))) {
-            // User is assigned to the campaign of this activity
-            return ActivityAccessRole.VIEWER;
         }
 
         return ActivityAccessRole.NONE;

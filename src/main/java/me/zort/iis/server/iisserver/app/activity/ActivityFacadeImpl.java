@@ -73,25 +73,19 @@ public class ActivityFacadeImpl implements ActivityFacade {
 
     @Override
     public Page<Activity> getAvailableActivities(long userId, Pageable pageable) {
-        User user = userService.getUser(userId).orElseThrow(() -> new UserNotFoundException(userId));
+        userService.getUser(userId).orElseThrow(() -> new UserNotFoundException(userId));
 
-        if (privilegesResolver.getGrantedPrivileges(user).contains(Privilege.MANAGE_ACTIVITIES)) {
-            // Has access to all activities
-            return activityService.getAvailableActivities(pageable);
-        } else {
-            List<Long> campaignIds = campaignMembershipService.getCampaignMembershipsOfUser(userId)
-                    .stream()
-                    .map(CampaignMembership::getCampaignId)
-                    .toList();
-
-            return activityService.getAvailableActivitiesForCampaigns(campaignIds, pageable);
-        }
+        List<Long> campaignIds = campaignMembershipService.getCampaignMembershipsOfUser(userId)
+                .stream()
+                .map(CampaignMembership::getCampaignId)
+                .toList();
+        return activityService.getAvailableActivitiesForCampaigns(userId, campaignIds, pageable);
     }
 
     @Override
     public Page<Activity> getAssignedActivities(long userId, Pageable pageable) {
         return activityMembershipService
-                .getMembershipsForUser(userId, pageable)
+                .getActiveMembershipsForUser(userId, pageable)
                 .map(membership -> activityService.getActivity(membership.getActivityId()).get()); // TODO: more secure get
     }
 

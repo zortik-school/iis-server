@@ -59,26 +59,21 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public Page<Activity> getAvailableActivities(Pageable pageable) {
-        return activityRepository.findAllByStateAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-                ActivityState.OPEN, System.currentTimeMillis(), System.currentTimeMillis(), pageable);
-    }
-
-    @Override
-    public Page<Activity> getAvailableActivitiesForCampaigns(List<Long> campaignIds, Pageable pageable) {
+    public Page<Activity> getAvailableActivitiesForCampaigns(long userId, List<Long> campaignIds, Pageable pageable) {
         List<Step> steps = stepRepository.findAllByCampaignIdIn(campaignIds);
         if (steps.isEmpty()) {
             return Page.empty(pageable);
         }
 
         List<Long> stepIds = steps.stream()
+                .filter(Step::isActive)
                 .map(Step::getId)
                 .toList();
 
         long now = System.currentTimeMillis();
 
-        return activityRepository.findAllByStepIdInAndStateAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-                stepIds, ActivityState.OPEN, now, now, pageable);
+        return activityRepository.findAllByStepIdInAndStateAndStartDateLessThanEqualAndEndDateGreaterThanEqualAndUserNotInMembership(
+                stepIds, ActivityState.OPEN, now, now, userId, pageable);
     }
 
     @Override

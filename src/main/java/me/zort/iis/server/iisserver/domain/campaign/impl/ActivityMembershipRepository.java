@@ -1,6 +1,7 @@
 package me.zort.iis.server.iisserver.domain.campaign.impl;
 
 import me.zort.iis.server.iisserver.domain.campaign.ActivityMembership;
+import me.zort.iis.server.iisserver.domain.campaign.ActivityState;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -48,4 +49,16 @@ public interface ActivityMembershipRepository {
      * @return a page of activity memberships for the given user ID
      */
     Page<ActivityMembership> findAllByUserId(long userId, Pageable pageable);
+
+    /**
+     * Finds all activity memberships by user ID, activity state, and step active status with pagination.
+     *
+     * @param userId the ID of the user
+     * @param state the state of the activity
+     * @param stepActive whether the step is active
+     * @param pageable pagination information
+     * @return a page of activity memberships matching the criteria
+     */
+    Page<ActivityMembership> findAllByUserIdAndActivityStateAndStepActive(
+            long userId, ActivityState state, boolean stepActive, Pageable pageable);
 }

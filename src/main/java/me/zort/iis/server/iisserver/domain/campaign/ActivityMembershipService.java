@@ -45,6 +45,16 @@ public interface ActivityMembershipService {
     Page<ActivityMembership> getMembershipsForUser(long userId, Pageable pageable);
 
     /**
+     * Retrieves all active activity memberships for a specific user.
+     * By active it is meant that the associated activity is currently active.
+     *
+     * @param userId The ID of the user.
+     * @param pageable Pagination information.
+     * @return A page of active ActivityMembership objects for the user.
+     */
+    Page<ActivityMembership> getActiveMembershipsForUser(long userId, Pageable pageable);
+
+    /**
      * Retrieves all activity memberships for a specific activity.
      *
      * @param activityId The ID of the activity.
