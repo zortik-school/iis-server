@@ -1,8 +1,6 @@
 package me.zort.iis.server.iisserver.app.activity;
 
 import lombok.RequiredArgsConstructor;
-import me.zort.iis.server.iisserver.app.access.PrivilegesResolver;
-import me.zort.iis.server.iisserver.domain.access.Privilege;
 import me.zort.iis.server.iisserver.domain.campaign.*;
 import me.zort.iis.server.iisserver.domain.campaign.exception.ActivityNotFoundException;
 import me.zort.iis.server.iisserver.domain.user.User;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +20,6 @@ public class ActivityFacadeImpl implements ActivityFacade {
     private final ActivityService activityService;
     private final ActivityMembershipService activityMembershipService;
     private final CampaignMembershipService campaignMembershipService;
-    private final PrivilegesResolver privilegesResolver;
 
     @Override
     public Activity createActivity(CreateActivityArgs args) {

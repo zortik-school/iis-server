@@ -30,6 +30,27 @@ public class UserSeeder implements Seeder {
                 .build());
         userFacade.setUserRole(admin.getId(), Role.ADMIN);
 
+        User campaignManager = registerUser(RegisterArgs.builder()
+                .name("Campaign Manager")
+                .username("campaignmanager")
+                .password("campaignmanager")
+                .build());
+        userFacade.setUserRole(campaignManager.getId(), Role.CAMPAIGN_MANAGER);
+
+        User stepManager = registerUser(RegisterArgs.builder()
+                .name("Step Manager")
+                .username("stepmanager")
+                .password("stepmanager")
+                .build());
+        userFacade.setUserRole(stepManager.getId(), Role.STEP_MANAGER);
+
+        User activityExecutor = registerUser(RegisterArgs.builder()
+                .name("Activity Executor")
+                .username("activityexecutor")
+                .password("activityexecutor")
+                .build());
+        userFacade.setUserRole(activityExecutor.getId(), Role.ACTIVITY_EXECUTOR);
+
         // Create normal user
         registerUser(RegisterArgs.builder()
                 .name("Dummy User")
