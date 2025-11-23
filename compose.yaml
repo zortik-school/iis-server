@@ -1,10 +1,21 @@
 services:
-  mariadb:
+  db:
     image: 'mariadb:latest'
     environment:
-      - 'MARIADB_DATABASE=mydatabase'
-      - 'MARIADB_PASSWORD=secret'
-      - 'MARIADB_ROOT_PASSWORD=verysecret'
-      - 'MARIADB_USER=myuser'
+      - 'MARIADB_DATABASE=iis_db'
+      - 'MARIADB_ROOT_PASSWORD=test'
+
+  app:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - 'DATASOURCE_URL=mariadb://db:3306/iis_db'
+      - 'DATASOURCE_USERNAME=root'
+      - 'DATASOURCE_PASSWORD=test'
+      - 'SERVER_PORT=7777'
+      - 'JWT_SECRET=4hUVmijYIGcv8yxGZfmALOzyRclTqZEkVesKt9L86v4JzMvN'
+      - 'SPRING_PROFILES_ACTIVE=dev'
     ports:
-      - '3306'
+      - '7777'
