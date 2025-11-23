@@ -17,4 +17,4 @@ services:
       - 'JWT_SECRET=4hUVmijYIGcv8yxGZfmALOzyRclTqZEkVesKt9L86v4JzMvN'
       - 'SPRING_PROFILES_ACTIVE=dev'
     ports:
-      - '7777'
+      - '0.0.0.0:7777:7777'
