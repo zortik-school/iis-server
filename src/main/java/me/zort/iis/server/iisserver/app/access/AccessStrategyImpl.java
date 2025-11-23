@@ -2,6 +2,7 @@ package me.zort.iis.server.iisserver.app.access;
 
 import lombok.RequiredArgsConstructor;
 import me.zort.iis.server.iisserver.domain.access.Privilege;
+import me.zort.iis.server.iisserver.domain.access.exception.UserNotInCampaignZone;
 import me.zort.iis.server.iisserver.domain.campaign.*;
 import me.zort.iis.server.iisserver.domain.campaign.exception.ActivityNotFoundException;
 import me.zort.iis.server.iisserver.domain.campaign.exception.StepNotFoundException;
@@ -18,6 +19,7 @@ public class AccessStrategyImpl implements AccessStrategy {
     private final CampaignStepService campaignStepService;
     private final ActivityService activityService;
     private final ActivityMembershipService activityMembershipService;
+    private final CampaignZoneService campaignZoneService;
 
     @Override
     public boolean canViewTheme(long themeId, User user) {
@@ -105,5 +107,14 @@ public class AccessStrategyImpl implements AccessStrategy {
         }
 
         return ActivityAccessRole.NONE;
+    }
+
+    @Override
+    public void requireUserInCampaignZone(long campaignZoneId, long userId) {
+        if (campaignZoneService.getCampaignZoneIdsForUser(userId).contains(campaignZoneId)) {
+            return;
+        }
+
+        throw new UserNotInCampaignZone();
     }
 }

@@ -1,6 +1,8 @@
 package me.zort.iis.server.iisserver.app.campaign;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.iis.server.iisserver.app.access.AccessStrategy;
+import me.zort.iis.server.iisserver.app.access.CampaignZoneService;
 import me.zort.iis.server.iisserver.domain.campaign.Campaign;
 import me.zort.iis.server.iisserver.domain.campaign.CampaignMembershipService;
 import me.zort.iis.server.iisserver.domain.campaign.CampaignService;
@@ -18,8 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CampaignFacadeImpl implements CampaignFacade {
     private final CampaignService campaignService;
-    private final CampaignMembershipService campaignMembershipService;
     private final UserService userService;
+    private final AccessStrategy accessStrategy;
+    private final CampaignZoneService campaignZoneService;
 
     @Override
     public Campaign createCampaign(CreateCampaignArgs args) {
@@ -33,13 +36,17 @@ public class CampaignFacadeImpl implements CampaignFacade {
 
     @Override
     public void addUserToCampaign(long campaignId, long userId) {
-        campaignMembershipService.addUserToCampaign(campaignId, userId);
+        campaignZoneService.addUserToCampaignZone(
+                campaignZoneService.getCampaignZoneIdForCampaign(campaignId), userId);
     }
 
     @Transactional
     @Override
     public void removeUserFromCampaign(long campaignId, long userId) {
-        campaignMembershipService.removeUserFromCampaign(campaignId, userId);
+        campaignZoneService.removeUserFromCampaignZone(
+                campaignZoneService.getCampaignZoneIdForCampaign(campaignId), userId);
+
+        // TODO: cleanup assignments
     }
 
     @Override
@@ -52,6 +59,8 @@ public class CampaignFacadeImpl implements CampaignFacade {
         if (userId != null) {
             userService.getUser(userId).orElseThrow(() -> new UserNotFoundException(userId));
         }
+
+        accessStrategy.requireUserInCampaignZone(campaignZoneService.getCampaignZoneIdForCampaign(campaignId), userId);
 
         campaignService.assignUser(campaignId, userId);
     }
@@ -68,9 +77,7 @@ public class CampaignFacadeImpl implements CampaignFacade {
 
     @Override
     public Page<User> getMembersOfCampaign(long campaignId, Pageable pageable) {
-        return campaignMembershipService.getCampaignMembershipsOfCampaign(campaignId, pageable)
-                .map(membership -> userService.getUser(membership.getUserId())
-                        .orElseThrow(() -> new UserNotFoundException(membership.getUserId()))); // TODO: safe filtering
+        return campaignZoneService.getMembersOfZone(campaignZoneService.getCampaignZoneIdForCampaign(campaignId), pageable);
     }
 
     @Override

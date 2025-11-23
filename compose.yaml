@@ -16,5 +16,6 @@ services:
       - 'SERVER_PORT=7777'
       - 'JWT_SECRET=4hUVmijYIGcv8yxGZfmALOzyRclTqZEkVesKt9L86v4JzMvN'
       - 'SPRING_PROFILES_ACTIVE=dev'
+      - 'ALLOWED_ORIGINS=https://iis-app.vercel.app'
     ports:
       - '0.0.0.0:7777:7777'

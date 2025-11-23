@@ -1,6 +1,8 @@
 package me.zort.iis.server.iisserver.app.activity;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.iis.server.iisserver.app.access.AccessStrategy;
+import me.zort.iis.server.iisserver.app.access.CampaignZoneService;
 import me.zort.iis.server.iisserver.domain.campaign.*;
 import me.zort.iis.server.iisserver.domain.campaign.exception.ActivityNotFoundException;
 import me.zort.iis.server.iisserver.domain.user.User;
@@ -20,6 +22,8 @@ public class ActivityFacadeImpl implements ActivityFacade {
     private final ActivityService activityService;
     private final ActivityMembershipService activityMembershipService;
     private final CampaignMembershipService campaignMembershipService;
+    private final CampaignZoneService campaignZoneService;
+    private final AccessStrategy accessStrategy;
 
     @Override
     public Activity createActivity(CreateActivityArgs args) {
@@ -53,6 +57,8 @@ public class ActivityFacadeImpl implements ActivityFacade {
 
     @Override
     public void addUserToActivity(long activityId, long userId) {
+        accessStrategy.requireUserInCampaignZone(campaignZoneService.getCampaignZoneIdForActivity(activityId), userId);
+
         activityMembershipService.addMemberToActivity(activityId, userId);
     }
 

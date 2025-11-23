@@ -1,5 +1,6 @@
 package me.zort.iis.server.iisserver.app.access;
 
+import me.zort.iis.server.iisserver.domain.access.exception.UserNotInCampaignZone;
 import me.zort.iis.server.iisserver.domain.campaign.exception.ActivityNotFoundException;
 import me.zort.iis.server.iisserver.domain.campaign.exception.StepNotFoundException;
 import me.zort.iis.server.iisserver.domain.user.User;
@@ -59,4 +60,14 @@ public interface AccessStrategy {
      * @throws ActivityNotFoundException if the activity does not exist
      */
     ActivityAccessRole getActivityAccessRole(long activityId, User user);
+
+    /**
+     * Requires that the user is in the campaign zone.
+     * This is used to ensure that the user has access to the campaign's restricted area.
+     *
+     * @param campaignZoneId the ID of the campaign
+     * @param userId the ID of the user
+     * @throws UserNotInCampaignZone if the user is not in the campaign zone
+     */
+    void requireUserInCampaignZone(long campaignZoneId, long userId);
 }
