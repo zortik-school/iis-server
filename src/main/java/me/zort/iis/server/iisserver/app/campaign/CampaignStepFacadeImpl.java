@@ -1,6 +1,8 @@
 package me.zort.iis.server.iisserver.app.campaign;
 
 import lombok.RequiredArgsConstructor;
+import me.zort.iis.server.iisserver.app.access.AccessStrategy;
+import me.zort.iis.server.iisserver.app.access.CampaignZoneService;
 import me.zort.iis.server.iisserver.domain.campaign.CampaignService;
 import me.zort.iis.server.iisserver.domain.campaign.CampaignStepService;
 import me.zort.iis.server.iisserver.domain.campaign.Step;
@@ -20,6 +22,8 @@ import java.util.Optional;
 public class CampaignStepFacadeImpl implements CampaignStepFacade {
     private final CampaignService campaignService;
     private final CampaignStepService campaignStepService;
+    private final AccessStrategy accessStrategy;
+    private final CampaignZoneService campaignZoneService;
 
     @Override
     public Step addStep(AddStepArgs args) {
@@ -38,6 +42,10 @@ public class CampaignStepFacadeImpl implements CampaignStepFacade {
 
     @Override
     public void assignUserToStep(long stepId, @Nullable Long userId) {
+        if (userId != null) {
+            accessStrategy.requireUserInCampaignZone(campaignZoneService.getCampaignZoneIdForCampaignStep(stepId), userId);
+        }
+
         campaignStepService.assignUserToStep(stepId, userId);
     }
 
