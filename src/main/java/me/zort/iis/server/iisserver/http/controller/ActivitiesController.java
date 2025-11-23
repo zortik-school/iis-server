@@ -23,12 +23,15 @@ public class ActivitiesController {
     @GetMapping
     public PageResponse<ActivityModel> getActivities(
             @RequestParam(value = "assigned", required = false) Boolean assigned,
-            @RequestParam(value = "available", required = false) Boolean available, Pageable pageable) {
+            @RequestParam(value = "available", required = false) Boolean available,
+            @RequestParam(value = "stepId", required = false) Long stepId, Pageable pageable) {
         Page<Activity> page;
         if (assigned != null) {
             page = operationExecutor.dispatch(new GetAssignedActivitiesOp(pageable));
         } else if (available != null) {
             page = operationExecutor.dispatch(new GetAvailableActivitiesOp(pageable));
+        } else if (stepId != null) {
+            page = operationExecutor.dispatch(new GetActivitiesForStepOp(stepId, pageable));
         } else {
             page = operationExecutor.dispatch(new GetActivitiesOp(pageable));
         }

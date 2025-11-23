@@ -638,6 +638,11 @@ paths:
         - $ref: '#/components/parameters/PageSize'
         - $ref: '#/components/parameters/Assigned'
         - $ref: '#/components/parameters/Available'
+        - name: stepId
+          in: query
+          required: false
+          schema:
+            type: integer
       description: If 'assigned' is true, returns only activities assigned to the current user.
       responses:
         '200':
