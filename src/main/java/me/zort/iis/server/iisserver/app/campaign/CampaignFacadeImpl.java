@@ -60,7 +60,9 @@ public class CampaignFacadeImpl implements CampaignFacade {
             userService.getUser(userId).orElseThrow(() -> new UserNotFoundException(userId));
         }
 
-        accessStrategy.requireUserInCampaignZone(campaignZoneService.getCampaignZoneIdForCampaign(campaignId), userId);
+        if (userId != null) {
+            accessStrategy.requireUserInCampaignZone(campaignZoneService.getCampaignZoneIdForCampaign(campaignId), userId);
+        }
 
         campaignService.assignUser(campaignId, userId);
     }
